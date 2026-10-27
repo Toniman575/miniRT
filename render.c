@@ -6,12 +6,18 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:11:27 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/27 17:00:45 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/27 23:07:52 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	render(t_state *state)
+#include "utils.h"
+
+int	render(void *data)
 {
+	t_state	*state;
+
+	state = (t_state *)data;
+	/*
 	update_timestamp(state);
 	handle_camera(state);
 	handle_objects(state);
@@ -19,4 +25,7 @@ void	render(t_state *state)
 	{
 		draw(state);
 	}
+	*/
+	draw(state);
+	return (1);
 }

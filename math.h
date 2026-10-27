@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:46:09 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/27 17:34:11 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/27 22:47:11 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,21 @@
 # include <stdint.h>
 # include "result.h"
 
+typedef uint16_t	t_coord2d;
+
+typedef double		t_coord3d;
+
 typedef struct s_screen_coord
 {
-	uint16_t	x;
-	uint16_t	y;
+	t_coord2d	x;
+	t_coord2d	y;
 }	t_screen_coord;
 
 typedef struct s_vec3
 {
-	double	x;
-	double	y;
-	double	z;
+	t_coord3d	x;
+	t_coord3d	y;
+	t_coord3d	z;
 }	t_vec3;
 
 typedef t_vec3	t_world_coord;

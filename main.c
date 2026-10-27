@@ -6,11 +6,12 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:40:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/27 17:15:56 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/27 23:30:20 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+#include "libft.h"
 
 int	main(int argc, char **argv)
 {
@@ -18,10 +19,13 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_putendl_fd("Wrong number of arguments.");
+		handle_exit(&((t_state){0}), (t_exit_data){"minirt", 
+			"wrong amount of parameters.\nUsage", "./minirt /path/to/scene.rt",
+			EXIT_FAILURE});
 		return (1);
 	};
-	init(&state);
+	init(&state, argv[1]);
 	render(&state);
-	cleanup(&state);
+	mlx_loop(state.mlx_ptr);
+	handle_exit(&state, (t_exit_data){NULL, NULL, NULL, EXIT_SUCCESS});
 }
