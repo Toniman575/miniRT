@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/28 12:12:10 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/28 15:11:57 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	init_dim(t_state *state)
 	state->img.dim = (t_dim2d){IMG_WIDTH, IMG_HEIGHT};
 }
 
-/// TODO: Should file be in state?
 
 void	init(t_state *state, char *file)
 {

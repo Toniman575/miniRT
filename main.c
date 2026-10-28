@@ -6,9 +6,11 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:40:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/28 12:12:10 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/28 15:11:37 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/// TODO: Should filename be in the state struct? Viewport field in camera struct.
 
 #include "utils.h"
 #include "libft/libft.h"

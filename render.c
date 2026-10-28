@@ -6,20 +6,17 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/28 13:56:59 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/28 17:28:35 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-#include "math.h"
 #include <stdint.h>
-
 
 /*diffuse_light()
 {
 	normal = calculate_normal(intersection);
 }*/
-/*
 
 t_option	cast_ray(t_state *state, t_ray ray)
 {
@@ -27,41 +24,27 @@ t_option	cast_ray(t_state *state, t_ray ray)
 	t_option	c_is;
 	uint16_t	i;
 
-	is.type = NONE;
-	c_is.type = NONE;
+	is.type = OT_NONE;
+	c_is.type = OT_NONE;
 	i = -1;
-	while (state->objects[++i])
+	while (++i < state->objects_n)
 	{
-		c_is = xchecker(state->object[i], ray);
-		if (world_distance(c_is.value.intersection.pos, ray.start)
+		c_is = xchecker(&state->objects[i], &ray);
+		if (c_is.type != OT_NONE && world_distance(c_is.value.intersection.pos, ray.start)
 			< world_distance(is.value.intersection.pos, ray.start))
 			is = c_is;
 	}
 	return (is);
 }
 
-t_color	cast_ray(t_state *state, t_screen_coord *current)
+t_color	viewport_ray(t_state *state, t_screen_coord *current)
 {
+	t_ray ray;
 
-	t_vec3		normal;
-	
-	while (state->objects[i])
-	{
-		current = xcheck(state->object[i]);
-		if (intersection.pos > current_intersection.pos)
-			intersection.pos = current_intersection.pos;
-			intersection.object = &state->object[i];
-	}
-	if (intersection == Some)
-	{
-		i = 0;
-		while (++i; state->lights[i])
-			color += diffuse_light(intersection, state->lights[i]);
-		color += ambient_light();
-	}
-	return (color);
+	ray.start = state->camera.pos;
+	state->win.dim.
 }
-*/
+
 void	put_pixel_to_buffer(t_state *state, t_screen_coord sc, uint32_t color)
 {
 	size_t	idx;

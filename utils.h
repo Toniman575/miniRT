@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/28 14:02:44 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/28 15:14:59 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 # include <mlx.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
-#include <stdint.h>
+# include <stdint.h>
 # include "libft/libft.h"
-# include "shapes.h"
 
 # define MSB_FIRST 1
 # define LSB_FIRST 0
@@ -34,7 +33,6 @@
 
 typedef uint8_t	t_color_component;
 typedef uint8_t	fov;
-
 typedef struct s_quaternion
 {
 	double	w;
@@ -75,6 +73,18 @@ typedef struct s_img_data
 	int		byte_order;
 }	t_img_data;
 
+typedef uint16_t	t_coord2d;
+
+typedef double		t_coord3d;
+typedef struct s_vec3
+{
+	t_coord3d	x;
+	t_coord3d	y;
+	t_coord3d	z;
+}	t_vec3;
+
+typedef t_vec3	t_world_coord;
+
 typedef struct s_camera
 {
 	t_world_coord	pos;
@@ -84,17 +94,110 @@ typedef struct s_camera
 	fov				fov;
 }	t_camera;
 
+typedef struct s_object t_object;
+
 typedef struct s_state
 {
 	t_win_data	win;
 	t_img_data	img;
 	void		*mlx_ptr;
+	t_object	*objects;
+	uint16_t	objects_n;
+	t_camera	camera;
 }	t_state;
+
+
+typedef struct s_screen_coord
+{
+	t_coord2d	x;
+	t_coord2d	y;
+}	t_screen_coord;
+
+typedef struct s_ray
+{
+	t_world_coord	start;
+	t_vec3			direction;
+}	t_ray;
+
+typedef struct s_light
+{
+	t_world_coord	pos;
+	uint16_t			color[3];
+}	t_light;
+
+typedef struct s_sphere
+{
+	t_world_coord	center;
+	double			diameter;
+	uint16_t		color[3];
+}	t_sphere;
+
+typedef struct s_plane
+{
+	t_world_coord	pos;
+	t_vec3			rot;
+	uint16_t		color[3];
+}	t_plane;
+
+typedef struct s_cylinder
+{
+	t_world_coord	center;
+	t_vec3			rot;
+	double			diameter;
+	double			height;
+	uint16_t		color[3];
+}	t_cylinder;
+
+typedef union u_object_data
+{
+	t_light		light;
+	t_sphere	sphere;
+	t_plane		plane;
+	t_cylinder	cylinder;
+}	t_object_data;
+
+typedef enum e_object_type
+{
+	OBJ_LIGHT,
+	OBJ_SPHERE,
+	OBJ_PLANE,
+	OBJ_CYLINDER,
+}	t_object_type;
+
+typedef struct s_object
+{
+	t_object_type	type;
+	t_object_data	data;
+}	t_object;
+
+typedef struct s_intersection
+{
+	t_world_coord	pos;
+	t_object		*object;
+}	t_intersection;
+
+typedef enum e_rtype
+{
+	RT_ERROR,
+	RT_INT,
+}	t_rtype;
+
+typedef union u_rvalue
+{
+	char	*error;
+	int		n;
+}	t_rvalue;
+
+typedef struct s_result
+{
+	t_rtype		type;
+	t_rvalue	value;
+}	t_result;
 
 typedef enum e_otype
 {
-	NONE,
-	INTERSECTION,
+	OT_NONE,
+	OT_INTERSECTION,
 }	t_otype;
 
 typedef union u_ovalue
@@ -109,6 +212,14 @@ typedef struct s_option
 	t_ovalue	value;
 }	t_option;
 
+t_option	xchecker(t_object *object, t_ray *ray);
+t_result	normalize(t_vec3 vec);
+t_result	dot_product(t_vec3 vec1, t_vec3 vec2);
+t_result	reflect(t_vec3 vec);
+t_result	vec3_add(t_vec3 vec1, t_vec3 vec2);
+t_result	vec3_mul(t_vec3 vec1, t_vec3 vec2);
+t_result	length(t_vec3 vec);
+double		world_distance(t_world_coord coord1, t_world_coord coord2);
 void	init(t_state *state, char *file);
 int		handle_key_press(int keycode, void *data);
 int		handle_key_release(int keycode, void *data);
