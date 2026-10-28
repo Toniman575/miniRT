@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/28 00:06:46 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/10/28 12:12:10 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,14 @@ void	init_dim(t_state *state)
 void	init(t_state *state, char *file)
 {
 	state = ft_memset(state, 0, sizeof(t_state));
+	(void) file;
 	//parse(&state, file);
 	init_dim(state);
 	init_mlx(state);
 	mlx_hook(state->win.ptr, KeyPress, KeyPressMask, handle_key_press, state);
 	mlx_hook(state->win.ptr, KeyRelease, KeyReleaseMask,
 			handle_key_release, state);
-	mlx_loop_hook(state->mlx_ptr, render, state);
+	mlx_loop_hook(state->mlx_ptr, main_loop, state);
 	mlx_hook(state->win.ptr, ClientMessage, StructureNotifyMask,
 			call_exit, state);
 }

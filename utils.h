@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/27 23:40:09 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/10/28 14:02:44 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include <mlx.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
-# include "libft.h"
+#include <stdint.h>
+# include "libft/libft.h"
 # include "shapes.h"
 
 # define MSB_FIRST 1
@@ -32,6 +33,15 @@
 # define IMG_HEIGHT	1080
 
 typedef uint8_t	t_color_component;
+typedef uint8_t	fov;
+
+typedef struct s_quaternion
+{
+	double	w;
+	double	x;
+	double	y;
+	double	z;
+}	t_quaternion;
 
 typedef struct	s_color
 {
@@ -65,6 +75,15 @@ typedef struct s_img_data
 	int		byte_order;
 }	t_img_data;
 
+typedef struct s_camera
+{
+	t_world_coord	pos;
+	t_quaternion	rotation;
+	double			pan_speed;
+	double			rot_speed;
+	fov				fov;
+}	t_camera;
+
 typedef struct s_state
 {
 	t_win_data	win;
@@ -91,13 +110,11 @@ typedef struct s_option
 }	t_option;
 
 void	init(t_state *state, char *file);
-
 int		handle_key_press(int keycode, void *data);
 int		handle_key_release(int keycode, void *data);
-int		render(void *data);
+int		main_loop(void *data);
 int		call_exit(void *data);
-
-void	draw(t_state *state);
-
+void	render(t_state *state);
 void	handle_exit(t_state *state, t_exit_data data);
+
 #endif

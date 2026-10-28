@@ -6,12 +6,12 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:40:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/27 23:30:20 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/10/28 12:12:10 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-#include "libft.h"
+#include "libft/libft.h"
 
 int	main(int argc, char **argv)
 {
@@ -25,7 +25,7 @@ int	main(int argc, char **argv)
 		return (1);
 	};
 	init(&state, argv[1]);
-	render(&state);
+	main_loop(&state);
 	mlx_loop(state.mlx_ptr);
 	handle_exit(&state, (t_exit_data){NULL, NULL, NULL, EXIT_SUCCESS});
 }
