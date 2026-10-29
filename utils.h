@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/28 15:14:59 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/29 11:28:53 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@
 # define IMG_WIDTH	1920
 # define IMG_HEIGHT	1080
 
-typedef uint8_t	t_color_component;
-typedef uint8_t	fov;
+typedef uint8_t		t_color_component;
+typedef uint32_t	t_xcolor;
+typedef uint8_t		fov;
 typedef struct s_quaternion
 {
 	double	w;
@@ -115,37 +116,37 @@ typedef struct s_screen_coord
 
 typedef struct s_ray
 {
-	t_world_coord	start;
+	t_world_coord	origin;
 	t_vec3			direction;
 }	t_ray;
 
 typedef struct s_light
 {
-	t_world_coord	pos;
-	uint16_t			color[3];
+	t_world_coord		pos;
+	t_xcolor			color;
 }	t_light;
 
 typedef struct s_sphere
 {
-	t_world_coord	center;
-	double			diameter;
-	uint16_t		color[3];
+	t_world_coord		center;
+	double				diameter;
+	t_xcolor			color;
 }	t_sphere;
 
 typedef struct s_plane
 {
-	t_world_coord	pos;
-	t_vec3			rot;
-	uint16_t		color[3];
+	t_world_coord		pos;
+	t_vec3				rot;
+	t_xcolor			color;
 }	t_plane;
 
 typedef struct s_cylinder
 {
-	t_world_coord	center;
-	t_vec3			rot;
-	double			diameter;
-	double			height;
-	uint16_t		color[3];
+	t_world_coord		center;
+	t_vec3				rot;
+	double				diameter;
+	double				height;
+	t_xcolor			color;
 }	t_cylinder;
 
 typedef union u_object_data
@@ -220,12 +221,12 @@ t_result	vec3_add(t_vec3 vec1, t_vec3 vec2);
 t_result	vec3_mul(t_vec3 vec1, t_vec3 vec2);
 t_result	length(t_vec3 vec);
 double		world_distance(t_world_coord coord1, t_world_coord coord2);
-void	init(t_state *state, char *file);
-int		handle_key_press(int keycode, void *data);
-int		handle_key_release(int keycode, void *data);
-int		main_loop(void *data);
-int		call_exit(void *data);
-void	render(t_state *state);
-void	handle_exit(t_state *state, t_exit_data data);
+void		init(t_state *state, char *file);
+int			handle_key_press(int keycode, void *data);
+int			handle_key_release(int keycode, void *data);
+int			main_loop(void *data);
+int			call_exit(void *data);
+void		render(t_state *state);
+void		handle_exit(t_state *state, t_exit_data data);
 
 #endif
