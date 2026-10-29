@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/29 11:28:53 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/10/29 15:52:17 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,17 +107,22 @@ typedef struct s_state
 	t_camera	camera;
 }	t_state;
 
-
 typedef struct s_screen_coord
 {
 	t_coord2d	x;
 	t_coord2d	y;
 }	t_screen_coord;
 
+typedef struct s_view_port_coord
+{
+	int16_t	x;
+	int16_t	y;
+}	t_view_port_coord;
+
 typedef struct s_ray
 {
 	t_world_coord	origin;
-	t_vec3			direction;
+	t_vec3			dir;
 }	t_ray;
 
 typedef struct s_light
@@ -214,7 +219,7 @@ typedef struct s_option
 }	t_option;
 
 t_option	xchecker(t_object *object, t_ray *ray);
-t_result	normalize(t_vec3 vec);
+t_vec3		normalize_vec3(t_vec3 vec);
 t_result	dot_product(t_vec3 vec1, t_vec3 vec2);
 t_result	reflect(t_vec3 vec);
 t_result	vec3_add(t_vec3 vec1, t_vec3 vec2);
