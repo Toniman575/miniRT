@@ -25,7 +25,10 @@ SRCS        = \
 			init.c \
 			hooks.c \
 			exit_handling.c \
-			render.c
+			render.c \
+			helpers.c \
+			intersection.c \
+			vector.c
 
 DEBUG_SRCS  =
 

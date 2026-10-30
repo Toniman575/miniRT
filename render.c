@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/29 17:04:52 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/30 10:37:49 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ t_option	cast_ray(t_state *state, t_ray ray)
 	while (++i < state->objects_n)
 	{
 		c_is = xchecker(&state->objects[i], &ray);
-		if (c_is.type != OT_NONE && world_distance(c_is.value.intersection.pos, ray.origin)
+		if (c_is.type != OT_NONE
+			&& world_distance(c_is.value.intersection.pos, ray.origin)
 			< world_distance(is.value.intersection.pos, ray.origin))
 			is = c_is;
 	}
@@ -82,13 +83,13 @@ void	render(t_state *state)
 		current.x = -1;
 		while (++current.x < state->win.dim.width)
 		{
-			color = get_color_from_ray(cast_ray(state, viewport_ray(state, current)));
+			color = get_color_from_ray(cast_ray(state,
+				viewport_ray(state, current)));
 			put_pixel_to_buffer(state, current,
 				mlx_get_color_value(state->mlx_ptr, color));
 		}
 	};
+	//put_image_to_window(&state);
 	mlx_put_image_to_window(state->mlx_ptr, state->win.ptr,
 		state->img.ptr, 0, 0);
-
-	//put_image_to_window(&state);
 }

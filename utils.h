@@ -6,18 +6,21 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/29 15:52:17 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/30 12:34:08 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
+# include <stdint.h>
+
 # include <mlx.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
-# include <stdint.h>
+
 # include "libft/libft.h"
+# include "vector.h"
 
 # define MSB_FIRST 1
 # define LSB_FIRST 0
@@ -34,6 +37,7 @@
 typedef uint8_t		t_color_component;
 typedef uint32_t	t_xcolor;
 typedef uint8_t		fov;
+
 typedef struct s_quaternion
 {
 	double	w;
@@ -75,14 +79,6 @@ typedef struct s_img_data
 }	t_img_data;
 
 typedef uint16_t	t_coord2d;
-
-typedef double		t_coord3d;
-typedef struct s_vec3
-{
-	t_coord3d	x;
-	t_coord3d	y;
-	t_coord3d	z;
-}	t_vec3;
 
 typedef t_vec3	t_world_coord;
 
@@ -219,12 +215,7 @@ typedef struct s_option
 }	t_option;
 
 t_option	xchecker(t_object *object, t_ray *ray);
-t_vec3		normalize_vec3(t_vec3 vec);
-t_result	dot_product(t_vec3 vec1, t_vec3 vec2);
 t_result	reflect(t_vec3 vec);
-t_result	vec3_add(t_vec3 vec1, t_vec3 vec2);
-t_result	vec3_mul(t_vec3 vec1, t_vec3 vec2);
-t_result	length(t_vec3 vec);
 double		world_distance(t_world_coord coord1, t_world_coord coord2);
 void		init(t_state *state, char *file);
 int			handle_key_press(int keycode, void *data);
