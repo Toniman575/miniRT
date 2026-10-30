@@ -3,16 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sancuta <sancuta@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:42:59 by sancuta           #+#    #+#             */
-/*   Updated: 2026/10/30 12:37:16 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/10/30 14:20:21 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <utils.h>
+#include "utils.h"
 
 t_option	xchecker(t_object *object, t_ray *ray)
 {
-	return (t_option{0});
+	t_option	option;
+
+	(void) object;
+	(void) ray;
+	option.type = OT_NONE;
+	return (option);
 }

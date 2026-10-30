@@ -6,13 +6,42 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/30 10:37:49 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/10/30 14:41:24 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+#include "vector.h"
 #include <math.h>
 #include <stdint.h>
+
+t_xcolor color_to_uint32(t_color c)
+{
+	return ((t_xcolor)c.a << 24)
+		| ((t_xcolor)c.r << 16)
+		| ((t_xcolor)c.g << 8)
+		| (t_xcolor)c.b;
+}
+
+t_color	new_color(t_color_component red, t_color_component green, t_color_component blue)
+{
+	t_color color;
+
+	color.a = 0;
+	color.g = red;
+	color.r = green;
+	color.b = blue;
+	return (color);
+}
+
+t_xcolor	get_color_from_ray(t_option intersection)
+{
+	if (intersection.type == OT_NONE)
+		return (color_to_uint32(new_color(0, 0, 0)));
+	else {
+		return (intersection.value.intersection.object->color);
+	}
+}
 
 t_option	cast_ray(t_state *state, t_ray ray)
 {
@@ -27,8 +56,8 @@ t_option	cast_ray(t_state *state, t_ray ray)
 	{
 		c_is = xchecker(&state->objects[i], &ray);
 		if (c_is.type != OT_NONE
-			&& world_distance(c_is.value.intersection.pos, ray.origin)
-			< world_distance(is.value.intersection.pos, ray.origin))
+			&& world_distance_squared(c_is.value.intersection.pos, ray.origin)
+			< world_distance_squared(is.value.intersection.pos, ray.origin))
 			is = c_is;
 	}
 	return (is);
@@ -43,6 +72,15 @@ t_vec3 new_vec3(double x, double y, double z)
 	new.z = z;
 	return (new);
 }
+t_vec3	rotate_vec3(t_quaternion quat, t_vec3 vec)
+{
+	t_vec3	qv;
+	t_vec3	t;
+
+	qv = new_vec3(quat.x, quat.y, quat.z);
+	t = vec3_mult(vec3_cross(qv, vec), 2.);
+	return (vec3_add(vec, vec3_mult(t, quat.w)), vec3_cross(qv, t));
+}
 
 t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 {
@@ -55,8 +93,8 @@ t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 	half_height = state->win.dim.height / 2.;
 	distance = half_width / (tan((double)state->camera.fov / 2.));
 	ray.origin = state->camera.pos;
-	ray.dir = apply_rotation(state->camera.rotation,
-		normalize_vec3(new_vec3((int16_t)coord.x - half_width,
+	ray.dir = rotate_vec3(state->camera.rotation,
+		vec3_normalize(new_vec3((int16_t)coord.x - half_width,
 		(int16_t)coord.y - half_height, -distance)));
 	return (ray);
 }
@@ -75,7 +113,7 @@ void	put_pixel_to_buffer(t_state *state, t_screen_coord sc, uint32_t color)
 void	render(t_state *state)
 {
 	t_screen_coord	current;
-	int32_t			color = 0x00FF0000;
+	t_xcolor		color = 0x00FF0000;
 
 	current.y = -1;
 	while (++current.y < state->win.dim.height)

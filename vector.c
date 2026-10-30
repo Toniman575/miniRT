@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sancuta <sancuta@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 11:10:28 by sancuta           #+#    #+#             */
-/*   Updated: 2026/10/30 12:26:25 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/10/30 14:17:49 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
 #include "vector.h"
+#include <math.h>
 
 t_vec3	vec3_add(t_vec3 p1, t_vec3 p2)
 {
@@ -93,11 +93,11 @@ double	vec3_angle(t_vec3 p1, t_vec3 p2)
 	double	len_prod;
 
 	len_prod = vec3_len_prod(p1, p2);
-	assert(len_prod);	/// TODO: we need better error handling here
-	return (acos(vec3_dot(p1, p2,) / len_prod));
+	//assert(len_prod);	/// TODO: we need better error handling here
+	return (acos(vec3_dot(p1, p2) / len_prod));
 }
 
 t_vec3	vec3_normalize(t_vec3 p)
 {
-	return (vec3_div(p, vec_len(p)));
+	return (vec3_div(p, vec3_len(p)));
 }

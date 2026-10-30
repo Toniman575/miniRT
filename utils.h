@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/30 12:34:08 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/10/30 14:41:44 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ typedef struct s_quaternion
 
 typedef struct	s_color
 {
-	t_color_component	alpha;
-	t_color_component	red;
-	t_color_component	green;
-	t_color_component	blue;
+	t_color_component	a;
+	t_color_component	r;
+	t_color_component	g;
+	t_color_component	b;
 }	t_color;
 
 typedef uint16_t t_pixel;
@@ -124,21 +124,18 @@ typedef struct s_ray
 typedef struct s_light
 {
 	t_world_coord		pos;
-	t_xcolor			color;
 }	t_light;
 
 typedef struct s_sphere
 {
 	t_world_coord		center;
 	double				diameter;
-	t_xcolor			color;
 }	t_sphere;
 
 typedef struct s_plane
 {
 	t_world_coord		pos;
 	t_vec3				rot;
-	t_xcolor			color;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -147,7 +144,6 @@ typedef struct s_cylinder
 	t_vec3				rot;
 	double				diameter;
 	double				height;
-	t_xcolor			color;
 }	t_cylinder;
 
 typedef union u_object_data
@@ -170,6 +166,7 @@ typedef struct s_object
 {
 	t_object_type	type;
 	t_object_data	data;
+	t_xcolor		color;
 }	t_object;
 
 typedef struct s_intersection
@@ -204,7 +201,6 @@ typedef enum e_otype
 
 typedef union u_ovalue
 {
-	char			*error;
 	t_intersection	intersection;
 }	t_ovalue;
 
@@ -216,7 +212,7 @@ typedef struct s_option
 
 t_option	xchecker(t_object *object, t_ray *ray);
 t_result	reflect(t_vec3 vec);
-double		world_distance(t_world_coord coord1, t_world_coord coord2);
+double		world_distance_squared(t_world_coord start, t_world_coord end);
 void		init(t_state *state, char *file);
 int			handle_key_press(int keycode, void *data);
 int			handle_key_release(int keycode, void *data);
