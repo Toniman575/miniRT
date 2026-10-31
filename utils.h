@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/30 14:41:44 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/31 15:31:26 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,9 +169,10 @@ typedef struct s_object
 	t_xcolor		color;
 }	t_object;
 
+/// t is a value from 0. to 1., representing the position along the ray where the intersection happens.
 typedef struct s_intersection
 {
-	t_world_coord	pos;
+	double			t;
 	t_object		*object;
 }	t_intersection;
 

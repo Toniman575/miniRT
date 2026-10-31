@@ -26,7 +26,6 @@ SRCS        = \
 			hooks.c \
 			exit_handling.c \
 			render.c \
-			helpers.c \
 			intersection.c \
 			vector.c
 
