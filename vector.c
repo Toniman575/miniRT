@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 11:10:28 by sancuta           #+#    #+#             */
-/*   Updated: 2026/10/30 14:17:49 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/31 16:08:14 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ t_vec3	vec3_cross(t_vec3 p1, t_vec3 p2)
 {
 	t_vec3	res;
 
-	res.x = p1.y * p2.z + p1.y * p2.y + p1.z * p2.z;
-	res.y = p1.x * p2.x + p1.y * p2.y + p1.z * p2.z;
-	res.z = p1.x * p2.x + p1.y * p2.y + p1.z * p2.z;
+	res.x = p1.y * p2.z - p1.z * p2.y;
+	res.y = p1.z * p2.x - p1.x * p2.z;
+	res.z = p1.x * p2.y - p1.y * p2.x;
 	return (res);
 }
 

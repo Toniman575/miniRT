@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/30 14:41:24 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/31 16:13:46 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ t_color	new_color(t_color_component red, t_color_component green, t_color_compon
 	t_color color;
 
 	color.a = 0;
-	color.g = red;
-	color.r = green;
+	color.r = red;
+	color.g = green;
 	color.b = blue;
 	return (color);
 }
@@ -55,9 +55,10 @@ t_option	cast_ray(t_state *state, t_ray ray)
 	while (++i < state->objects_n)
 	{
 		c_is = xchecker(&state->objects[i], &ray);
-		if (c_is.type != OT_NONE
-			&& world_distance_squared(c_is.value.intersection.pos, ray.origin)
-			< world_distance_squared(is.value.intersection.pos, ray.origin))
+		if (is.type == OT_NONE && c_is.type != OT_NONE)
+			is = c_is;
+		else if (c_is.type != OT_NONE && is.type != OT_NONE && c_is.value.intersection.t
+			< is.value.intersection.t)
 			is = c_is;
 	}
 	return (is);
@@ -72,6 +73,7 @@ t_vec3 new_vec3(double x, double y, double z)
 	new.z = z;
 	return (new);
 }
+
 t_vec3	rotate_vec3(t_quaternion quat, t_vec3 vec)
 {
 	t_vec3	qv;
@@ -79,7 +81,7 @@ t_vec3	rotate_vec3(t_quaternion quat, t_vec3 vec)
 
 	qv = new_vec3(quat.x, quat.y, quat.z);
 	t = vec3_mult(vec3_cross(qv, vec), 2.);
-	return (vec3_add(vec, vec3_mult(t, quat.w)), vec3_cross(qv, t));
+	return (vec3_add(vec3_add(vec, vec3_mult(t, quat.w)), vec3_cross(qv, t)));
 }
 
 t_ray	viewport_ray(t_state *state, t_screen_coord coord)
@@ -88,14 +90,16 @@ t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 	double		distance;
 	double		half_width;
 	double		half_height;
+	double		fov_rad;
 
+	fov_rad = state->camera.fov * M_PI / 180.;
 	half_width = state->win.dim.width / 2.;
 	half_height = state->win.dim.height / 2.;
-	distance = half_width / (tan((double)state->camera.fov / 2.));
+	distance = half_width / (tan(fov_rad / 2.));
 	ray.origin = state->camera.pos;
 	ray.dir = rotate_vec3(state->camera.rotation,
-		vec3_normalize(new_vec3((int16_t)coord.x - half_width,
-		(int16_t)coord.y - half_height, -distance)));
+		vec3_normalize(new_vec3(coord.x - half_width,
+		coord.y - half_height, -distance)));
 	return (ray);
 }
 

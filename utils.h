@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/31 15:31:26 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/31 15:34:51 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,6 @@ typedef struct s_option
 
 t_option	xchecker(t_object *object, t_ray *ray);
 t_result	reflect(t_vec3 vec);
-double		world_distance_squared(t_world_coord start, t_world_coord end);
 void		init(t_state *state, char *file);
 int			handle_key_press(int keycode, void *data);
 int			handle_key_release(int keycode, void *data);

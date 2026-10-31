@@ -1,3 +1,5 @@
 miniRT
 libft/.release
 libft/libft.a
+miniRT-debug
+build/debug/libft.a
