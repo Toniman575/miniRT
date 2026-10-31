@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/31 16:13:46 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/31 16:57:20 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,12 @@
 #include <math.h>
 #include <stdint.h>
 
-t_xcolor color_to_uint32(t_color c)
-{
-	return ((t_xcolor)c.a << 24)
-		| ((t_xcolor)c.r << 16)
-		| ((t_xcolor)c.g << 8)
-		| (t_xcolor)c.b;
-}
-
-t_color	new_color(t_color_component red, t_color_component green, t_color_component blue)
-{
-	t_color color;
-
-	color.a = 0;
-	color.r = red;
-	color.g = green;
-	color.b = blue;
-	return (color);
-}
-
 t_xcolor	get_color_from_ray(t_option intersection)
 {
 	if (intersection.type == OT_NONE)
-		return (color_to_uint32(new_color(0, 0, 0)));
-	else {
+		return (0x00000000);
+	else
 		return (intersection.value.intersection.object->color);
-	}
 }
 
 t_option	cast_ray(t_state *state, t_ray ray)
@@ -57,31 +37,11 @@ t_option	cast_ray(t_state *state, t_ray ray)
 		c_is = xchecker(&state->objects[i], &ray);
 		if (is.type == OT_NONE && c_is.type != OT_NONE)
 			is = c_is;
-		else if (c_is.type != OT_NONE && is.type != OT_NONE && c_is.value.intersection.t
-			< is.value.intersection.t)
+		else if (c_is.type != OT_NONE && is.type != OT_NONE
+			&& c_is.value.intersection.t < is.value.intersection.t)
 			is = c_is;
 	}
 	return (is);
-}
-
-t_vec3 new_vec3(double x, double y, double z)
-{
-	t_vec3 new;
-
-	new.x = x;
-	new.y = y;
-	new.z = z;
-	return (new);
-}
-
-t_vec3	rotate_vec3(t_quaternion quat, t_vec3 vec)
-{
-	t_vec3	qv;
-	t_vec3	t;
-
-	qv = new_vec3(quat.x, quat.y, quat.z);
-	t = vec3_mult(vec3_cross(qv, vec), 2.);
-	return (vec3_add(vec3_add(vec, vec3_mult(t, quat.w)), vec3_cross(qv, t)));
 }
 
 t_ray	viewport_ray(t_state *state, t_screen_coord coord)
@@ -98,8 +58,8 @@ t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 	distance = half_width / (tan(fov_rad / 2.));
 	ray.origin = state->camera.pos;
 	ray.dir = rotate_vec3(state->camera.rotation,
-		vec3_normalize(new_vec3(coord.x - half_width,
-		coord.y - half_height, -distance)));
+			vec3_normalize(new_vec3(coord.x - half_width,
+					coord.y - half_height, -distance)));
 	return (ray);
 }
 
@@ -117,7 +77,7 @@ void	put_pixel_to_buffer(t_state *state, t_screen_coord sc, uint32_t color)
 void	render(t_state *state)
 {
 	t_screen_coord	current;
-	t_xcolor		color = 0x00FF0000;
+	t_xcolor		color;
 
 	current.y = -1;
 	while (++current.y < state->win.dim.height)
@@ -126,12 +86,11 @@ void	render(t_state *state)
 		while (++current.x < state->win.dim.width)
 		{
 			color = get_color_from_ray(cast_ray(state,
-				viewport_ray(state, current)));
+						viewport_ray(state, current)));
 			put_pixel_to_buffer(state, current,
 				mlx_get_color_value(state->mlx_ptr, color));
 		}
-	};
-	//put_image_to_window(&state);
+	}
 	mlx_put_image_to_window(state->mlx_ptr, state->win.ptr,
 		state->img.ptr, 0, 0);
 }

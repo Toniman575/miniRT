@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/31 15:34:51 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/31 17:09:09 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 
 typedef uint8_t		t_color_component;
 typedef uint32_t	t_xcolor;
-typedef uint8_t		fov;
+typedef uint8_t		t_fov;
 
 typedef struct s_quaternion
 {
@@ -46,7 +46,7 @@ typedef struct s_quaternion
 	double	z;
 }	t_quaternion;
 
-typedef struct	s_color
+typedef struct s_color
 {
 	t_color_component	a;
 	t_color_component	r;
@@ -54,7 +54,7 @@ typedef struct	s_color
 	t_color_component	b;
 }	t_color;
 
-typedef uint16_t t_pixel;
+typedef uint16_t	t_pixel;
 
 typedef struct s_dim2d
 {
@@ -80,7 +80,7 @@ typedef struct s_img_data
 
 typedef uint16_t	t_coord2d;
 
-typedef t_vec3	t_world_coord;
+typedef t_vec3		t_world_coord;
 
 typedef struct s_camera
 {
@@ -88,38 +88,8 @@ typedef struct s_camera
 	t_quaternion	rotation;
 	double			pan_speed;
 	double			rot_speed;
-	fov				fov;
+	t_fov			fov;
 }	t_camera;
-
-typedef struct s_object t_object;
-
-typedef struct s_state
-{
-	t_win_data	win;
-	t_img_data	img;
-	void		*mlx_ptr;
-	t_object	*objects;
-	uint16_t	objects_n;
-	t_camera	camera;
-}	t_state;
-
-typedef struct s_screen_coord
-{
-	t_coord2d	x;
-	t_coord2d	y;
-}	t_screen_coord;
-
-typedef struct s_view_port_coord
-{
-	int16_t	x;
-	int16_t	y;
-}	t_view_port_coord;
-
-typedef struct s_ray
-{
-	t_world_coord	origin;
-	t_vec3			dir;
-}	t_ray;
 
 typedef struct s_light
 {
@@ -169,7 +139,36 @@ typedef struct s_object
 	t_xcolor		color;
 }	t_object;
 
-/// t is a value from 0. to 1., representing the position along the ray where the intersection happens.
+typedef struct s_state
+{
+	t_win_data	win;
+	t_img_data	img;
+	void		*mlx_ptr;
+	t_object	*objects;
+	uint16_t	objects_n;
+	t_camera	camera;
+}	t_state;
+
+typedef struct s_screen_coord
+{
+	t_coord2d	x;
+	t_coord2d	y;
+}	t_screen_coord;
+
+typedef struct s_view_port_coord
+{
+	int16_t	x;
+	int16_t	y;
+}	t_view_port_coord;
+
+typedef struct s_ray
+{
+	t_world_coord	origin;
+	t_vec3			dir;
+}	t_ray;
+
+/// t is a value from 0. to 1., representing the position along the ray where
+/// the intersection happens.
 typedef struct s_intersection
 {
 	double			t;
@@ -211,14 +210,16 @@ typedef struct s_option
 	t_ovalue	value;
 }	t_option;
 
-t_option	xchecker(t_object *object, t_ray *ray);
-t_result	reflect(t_vec3 vec);
-void		init(t_state *state, char *file);
-int			handle_key_press(int keycode, void *data);
-int			handle_key_release(int keycode, void *data);
-int			main_loop(void *data);
-int			call_exit(void *data);
-void		render(t_state *state);
-void		handle_exit(t_state *state, t_exit_data data);
+t_world_coord	new_world_coord(double x, double y, double z);
+t_option		xchecker(t_object *object, t_ray *ray);
+t_result		reflect(t_vec3 vec);
+void			init(t_state *state, char *file);
+int				handle_key_press(int keycode, void *data);
+int				handle_key_release(int keycode, void *data);
+int				main_loop(void *data);
+int				call_exit(void *data);
+void			render(t_state *state);
+void			handle_exit(t_state *state, t_exit_data data);
+t_vec3			rotate_vec3(t_quaternion quat, t_vec3 vec);
 
 #endif

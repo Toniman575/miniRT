@@ -6,27 +6,18 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/31 16:06:34 by asadik           ###   ########.fr       */
+/*   Updated: 2026/10/31 17:08:00 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-
-t_world_coord new_world_coord(double x, double y, double z) {
-	t_world_coord new;
-
-	new.x = x;
-	new.y = y;
-	new.z = z;
-	return (new);
-}
 
 void	init_mlx(t_state *state)
 {
 	state->mlx_ptr = mlx_init();
 	if (!state->mlx_ptr)
 		handle_exit(state, (t_exit_data){"minirt", "init_mlx",
-			E_MLX_INIT,  EXIT_FAILURE});
+			E_MLX_INIT, EXIT_FAILURE});
 	state->win.ptr = mlx_new_window(state->mlx_ptr,
 			state->win.dim.width, state->win.dim.height, "miniRT");
 	if (!state->win.ptr)
@@ -50,7 +41,7 @@ void	init_dim(t_state *state)
 
 void	init_dummy(t_state *state)
 {
-	t_camera cam = {
+	t_camera	cam = {
 		.pos = {0., 0., 0.},
 		.rotation = {1., 0., 0., 0.},
 		.pan_speed = 0.1,
@@ -80,8 +71,8 @@ void	init(t_state *state, char *file)
 	init_mlx(state);
 	mlx_hook(state->win.ptr, KeyPress, KeyPressMask, handle_key_press, state);
 	mlx_hook(state->win.ptr, KeyRelease, KeyReleaseMask,
-			handle_key_release, state);
+		handle_key_release, state);
 	mlx_loop_hook(state->mlx_ptr, main_loop, state);
 	mlx_hook(state->win.ptr, ClientMessage, StructureNotifyMask,
-			call_exit, state);
+		call_exit, state);
 }
