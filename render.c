@@ -6,13 +6,22 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/30 10:37:49 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/10/31 16:57:20 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+#include "vector.h"
 #include <math.h>
 #include <stdint.h>
+
+t_xcolor	get_color_from_ray(t_option intersection)
+{
+	if (intersection.type == OT_NONE)
+		return (0x00000000);
+	else
+		return (intersection.value.intersection.object->color);
+}
 
 t_option	cast_ray(t_state *state, t_ray ray)
 {
@@ -26,22 +35,13 @@ t_option	cast_ray(t_state *state, t_ray ray)
 	while (++i < state->objects_n)
 	{
 		c_is = xchecker(&state->objects[i], &ray);
-		if (c_is.type != OT_NONE
-			&& world_distance(c_is.value.intersection.pos, ray.origin)
-			< world_distance(is.value.intersection.pos, ray.origin))
+		if (is.type == OT_NONE && c_is.type != OT_NONE)
+			is = c_is;
+		else if (c_is.type != OT_NONE && is.type != OT_NONE
+			&& c_is.value.intersection.t < is.value.intersection.t)
 			is = c_is;
 	}
 	return (is);
-}
-
-t_vec3 new_vec3(double x, double y, double z)
-{
-	t_vec3 new;
-
-	new.x = x;
-	new.y = y;
-	new.z = z;
-	return (new);
 }
 
 t_ray	viewport_ray(t_state *state, t_screen_coord coord)
@@ -50,14 +50,16 @@ t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 	double		distance;
 	double		half_width;
 	double		half_height;
+	double		fov_rad;
 
+	fov_rad = state->camera.fov * M_PI / 180.;
 	half_width = state->win.dim.width / 2.;
 	half_height = state->win.dim.height / 2.;
-	distance = half_width / (tan((double)state->camera.fov / 2.));
+	distance = half_width / (tan(fov_rad / 2.));
 	ray.origin = state->camera.pos;
-	ray.dir = apply_rotation(state->camera.rotation,
-		normalize_vec3(new_vec3((int16_t)coord.x - half_width,
-		(int16_t)coord.y - half_height, -distance)));
+	ray.dir = rotate_vec3(state->camera.rotation,
+			vec3_normalize(new_vec3(coord.x - half_width,
+					coord.y - half_height, -distance)));
 	return (ray);
 }
 
@@ -75,7 +77,7 @@ void	put_pixel_to_buffer(t_state *state, t_screen_coord sc, uint32_t color)
 void	render(t_state *state)
 {
 	t_screen_coord	current;
-	int32_t			color = 0x00FF0000;
+	t_xcolor		color;
 
 	current.y = -1;
 	while (++current.y < state->win.dim.height)
@@ -84,12 +86,11 @@ void	render(t_state *state)
 		while (++current.x < state->win.dim.width)
 		{
 			color = get_color_from_ray(cast_ray(state,
-				viewport_ray(state, current)));
+						viewport_ray(state, current)));
 			put_pixel_to_buffer(state, current,
 				mlx_get_color_value(state->mlx_ptr, color));
 		}
-	};
-	//put_image_to_window(&state);
+	}
 	mlx_put_image_to_window(state->mlx_ptr, state->win.ptr,
 		state->img.ptr, 0, 0);
 }

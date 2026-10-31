@@ -20,15 +20,17 @@ LIBFT_DEBUG   = $(DEBUG_DIR)/libft.a
 
 # ---- sources ------------------------------------------------------------- #
 SRCS        = \
+			constructors.c \
 			main.c \
 			main_loop.c \
 			init.c \
 			hooks.c \
 			exit_handling.c \
 			render.c \
-			helpers.c \
 			intersection.c \
-			vector.c
+			vector_utils.c \
+			vector_basic.c \
+			vector_geometry.c
 
 DEBUG_SRCS  =
 

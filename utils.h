@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/30 12:34:08 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/10/31 17:09:09 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 
 typedef uint8_t		t_color_component;
 typedef uint32_t	t_xcolor;
-typedef uint8_t		fov;
+typedef uint8_t		t_fov;
 
 typedef struct s_quaternion
 {
@@ -46,15 +46,15 @@ typedef struct s_quaternion
 	double	z;
 }	t_quaternion;
 
-typedef struct	s_color
+typedef struct s_color
 {
-	t_color_component	alpha;
-	t_color_component	red;
-	t_color_component	green;
-	t_color_component	blue;
+	t_color_component	a;
+	t_color_component	r;
+	t_color_component	g;
+	t_color_component	b;
 }	t_color;
 
-typedef uint16_t t_pixel;
+typedef uint16_t	t_pixel;
 
 typedef struct s_dim2d
 {
@@ -80,7 +80,7 @@ typedef struct s_img_data
 
 typedef uint16_t	t_coord2d;
 
-typedef t_vec3	t_world_coord;
+typedef t_vec3		t_world_coord;
 
 typedef struct s_camera
 {
@@ -88,10 +88,56 @@ typedef struct s_camera
 	t_quaternion	rotation;
 	double			pan_speed;
 	double			rot_speed;
-	fov				fov;
+	t_fov			fov;
 }	t_camera;
 
-typedef struct s_object t_object;
+typedef struct s_light
+{
+	t_world_coord		pos;
+}	t_light;
+
+typedef struct s_sphere
+{
+	t_world_coord		center;
+	double				diameter;
+}	t_sphere;
+
+typedef struct s_plane
+{
+	t_world_coord		pos;
+	t_vec3				rot;
+}	t_plane;
+
+typedef struct s_cylinder
+{
+	t_world_coord		center;
+	t_vec3				rot;
+	double				diameter;
+	double				height;
+}	t_cylinder;
+
+typedef union u_object_data
+{
+	t_light		light;
+	t_sphere	sphere;
+	t_plane		plane;
+	t_cylinder	cylinder;
+}	t_object_data;
+
+typedef enum e_object_type
+{
+	OBJ_LIGHT,
+	OBJ_SPHERE,
+	OBJ_PLANE,
+	OBJ_CYLINDER,
+}	t_object_type;
+
+typedef struct s_object
+{
+	t_object_type	type;
+	t_object_data	data;
+	t_xcolor		color;
+}	t_object;
 
 typedef struct s_state
 {
@@ -121,60 +167,11 @@ typedef struct s_ray
 	t_vec3			dir;
 }	t_ray;
 
-typedef struct s_light
-{
-	t_world_coord		pos;
-	t_xcolor			color;
-}	t_light;
-
-typedef struct s_sphere
-{
-	t_world_coord		center;
-	double				diameter;
-	t_xcolor			color;
-}	t_sphere;
-
-typedef struct s_plane
-{
-	t_world_coord		pos;
-	t_vec3				rot;
-	t_xcolor			color;
-}	t_plane;
-
-typedef struct s_cylinder
-{
-	t_world_coord		center;
-	t_vec3				rot;
-	double				diameter;
-	double				height;
-	t_xcolor			color;
-}	t_cylinder;
-
-typedef union u_object_data
-{
-	t_light		light;
-	t_sphere	sphere;
-	t_plane		plane;
-	t_cylinder	cylinder;
-}	t_object_data;
-
-typedef enum e_object_type
-{
-	OBJ_LIGHT,
-	OBJ_SPHERE,
-	OBJ_PLANE,
-	OBJ_CYLINDER,
-}	t_object_type;
-
-typedef struct s_object
-{
-	t_object_type	type;
-	t_object_data	data;
-}	t_object;
-
+/// t is a value from 0. to 1., representing the position along the ray where
+/// the intersection happens.
 typedef struct s_intersection
 {
-	t_world_coord	pos;
+	double			t;
 	t_object		*object;
 }	t_intersection;
 
@@ -204,7 +201,6 @@ typedef enum e_otype
 
 typedef union u_ovalue
 {
-	char			*error;
 	t_intersection	intersection;
 }	t_ovalue;
 
@@ -214,15 +210,16 @@ typedef struct s_option
 	t_ovalue	value;
 }	t_option;
 
-t_option	xchecker(t_object *object, t_ray *ray);
-t_result	reflect(t_vec3 vec);
-double		world_distance(t_world_coord coord1, t_world_coord coord2);
-void		init(t_state *state, char *file);
-int			handle_key_press(int keycode, void *data);
-int			handle_key_release(int keycode, void *data);
-int			main_loop(void *data);
-int			call_exit(void *data);
-void		render(t_state *state);
-void		handle_exit(t_state *state, t_exit_data data);
+t_world_coord	new_world_coord(double x, double y, double z);
+t_option		xchecker(t_object *object, t_ray *ray);
+t_result		reflect(t_vec3 vec);
+void			init(t_state *state, char *file);
+int				handle_key_press(int keycode, void *data);
+int				handle_key_release(int keycode, void *data);
+int				main_loop(void *data);
+int				call_exit(void *data);
+void			render(t_state *state);
+void			handle_exit(t_state *state, t_exit_data data);
+t_vec3			rotate_vec3(t_quaternion quat, t_vec3 vec);
 
 #endif
