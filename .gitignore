@@ -1,5 +1,13 @@
-miniRT
-libft/.release
-libft/libft.a
-miniRT-debug
-build/debug/libft.a
+# build artifacts
+build/
+
+# vim swap files
+*.sw?
+
+# binaries
+miniRT*
+*.out
+test
+
+# libraries
+*.a
