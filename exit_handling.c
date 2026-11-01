@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit_handling.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sancuta <sancuta@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 21:21:17 by sancuta           #+#    #+#             */
-/*   Updated: 2026/10/27 22:54:50 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/10/31 16:48:18 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-
 
 void	cleanup(t_state *state)
 {

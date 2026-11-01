@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:40:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/30 10:36:25 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/10/31 17:06:28 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
 
 int	main(int argc, char **argv)
 {
-	t_state state;
+	t_state	state;
 
 	if (argc != 2)
 	{
-		handle_exit(&((t_state){0}), (t_exit_data){"minirt", 
+		handle_exit(&((t_state){0}), (t_exit_data){"minirt",
 			"wrong amount of parameters.\nUsage", "./minirt /path/to/scene.rt",
 			EXIT_FAILURE});
 		return (1);
-	};
+	}
 	init(&state, argv[1]);
 	main_loop(&state);
 	mlx_loop(state.mlx_ptr);

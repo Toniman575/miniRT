@@ -1,19 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helpers.c                                          :+:      :+:    :+:   */
+/*   constructors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sancuta <sancuta@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/30 11:07:54 by sancuta           #+#    #+#             */
-/*   Updated: 2026/10/30 12:36:54 by sancuta          ###   ########.fr       */
+/*   Created: 2026/10/31 16:54:15 by asadik            #+#    #+#             */
+/*   Updated: 2026/10/31 17:07:17 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+#include "vector.h"
 
-double	world_distance(t_world_coord coord1, t_world_coord coord2);
+t_vec3	new_vec3(double x, double y, double z)
 {
+	t_vec3	new;
 
-	return (1);
+	new.x = x;
+	new.y = y;
+	new.z = z;
+	return (new);
+}
+
+t_world_coord	new_world_coord(double x, double y, double z)
+{
+	t_world_coord	new;
+
+	new.x = x;
+	new.y = y;
+	new.z = z;
+	return (new);
 }
