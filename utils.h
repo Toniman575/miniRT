@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/31 17:09:09 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/01 23:33:30 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define UTILS_H
 
 # include <stdint.h>
+# include <fcntl.h>
 
 # include <mlx.h>
 # include <X11/X.h>
@@ -33,6 +34,14 @@
 # define WIN_HEIGHT	1080
 # define IMG_WIDTH	1920
 # define IMG_HEIGHT	1080
+
+# define AMBIENT	0x1
+# define CAMERA	0x2
+# define LIGHT	0x4
+
+# ifndef ARENA_SIZE
+#  define ARENA_SIZE 64
+# endif
 
 typedef uint8_t		t_color_component;
 typedef uint32_t	t_xcolor;
@@ -82,6 +91,11 @@ typedef uint16_t	t_coord2d;
 
 typedef t_vec3		t_world_coord;
 
+typedef struct s_ambient
+{
+	double	brightness;
+}	t_ambient;
+
 typedef struct s_camera
 {
 	t_world_coord	pos;
@@ -93,7 +107,8 @@ typedef struct s_camera
 
 typedef struct s_light
 {
-	t_world_coord		pos;
+	t_world_coord	pos;
+	double			brightness;
 }	t_light;
 
 typedef struct s_sphere
@@ -118,6 +133,7 @@ typedef struct s_cylinder
 
 typedef union u_object_data
 {
+	t_ambient	ambient;
 	t_light		light;
 	t_sphere	sphere;
 	t_plane		plane;

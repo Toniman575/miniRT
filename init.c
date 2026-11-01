@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/01 21:14:05 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/01 22:08:12 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	init(t_state *state, char *file)
 {
 	state = ft_memset(state, 0, sizeof(t_state));
 	(void) file;
-	//parse(&state, file);
+	//parse_scene(&state, file);
 	init_dummy(state);
 	init_dim(state);
 	init_mlx(state);
