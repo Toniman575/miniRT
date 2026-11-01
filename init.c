@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/31 17:08:00 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/01 21:14:05 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,6 @@ void	init(t_state *state, char *file)
 	mlx_hook(state->win.ptr, KeyRelease, KeyReleaseMask,
 		handle_key_release, state);
 	mlx_loop_hook(state->mlx_ptr, main_loop, state);
-	mlx_hook(state->win.ptr, ClientMessage, StructureNotifyMask,
+	mlx_hook(state->win.ptr, DestroyNotify, StructureNotifyMask,
 		call_exit, state);
 }
