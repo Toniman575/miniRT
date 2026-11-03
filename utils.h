@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/31 17:09:09 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/03 14:39:17 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,13 @@ typedef struct s_sphere
 typedef struct s_plane
 {
 	t_world_coord		pos;
-	t_vec3				rot;
+	t_vec3				dir;
 }	t_plane;
 
 typedef struct s_cylinder
 {
 	t_world_coord		center;
-	t_vec3				rot;
+	t_vec3				dir;
 	double				diameter;
 	double				height;
 }	t_cylinder;
@@ -136,7 +136,7 @@ typedef struct s_object
 {
 	t_object_type	type;
 	t_object_data	data;
-	t_xcolor		color;
+	t_color		color;
 }	t_object;
 
 typedef struct s_state

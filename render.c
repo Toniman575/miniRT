@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/31 16:57:20 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/03 14:27:45 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,17 @@
 #include <math.h>
 #include <stdint.h>
 
+t_xcolor x_color_from_color(t_color color)
+{
+	
+}
+
 t_xcolor	get_color_from_ray(t_option intersection)
 {
 	if (intersection.type == OT_NONE)
 		return (0x00000000);
 	else
-		return (intersection.value.intersection.object->color);
+		return (x_color_from_color(intersection.value.intersection.object->color));
 }
 
 t_option	cast_ray(t_state *state, t_ray ray)
@@ -44,6 +49,7 @@ t_option	cast_ray(t_state *state, t_ray ray)
 	return (is);
 }
 
+/// TODO: Optimize: Move rotation to be pre computed in the camerastruct and not at each ray.
 t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 {
 	t_ray		ray;

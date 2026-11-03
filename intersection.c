@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:42:59 by sancuta           #+#    #+#             */
-/*   Updated: 2026/10/31 16:02:54 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/03 14:40:55 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ t_option	xchecker(t_object *object, t_ray *ray)
 		double c = vec3_dot(oc, oc) -
 			((object->data.sphere.diameter / 2.) * (object->data.sphere.diameter / 2.));
 		double d = b * b - 4 * a * c;
-		if (islessequal(d, 0.))
+		if (isless(d, 0.))
 			option.type = OT_NONE;
 		else {
 			double sd = sqrt(d);
 			double t0 = (-b - sd) / (2. * a);
 			double t1 = (-b + sd) / (2. * a);
-			if (islessequal(t0, 0.))
+			if (isless(t0, 0.))
 				t0 = t1;
-			if (islessequal(t0, 0.))
+			if (isless(t0, 0.))
 				option.type = OT_NONE;
 			else
 			{
@@ -46,6 +46,10 @@ t_option	xchecker(t_object *object, t_ray *ray)
 				option.value.intersection.t = t0;
 			}
 		}
+	}
+	else if (object->type == OBJ_PLANE)
+	{
+		double t = (object->data.plane.dir.y - ray->origin.y) / ray->dir.y;
 	}
 	else
 		option.type = OT_NONE;
