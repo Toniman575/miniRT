@@ -1,77 +1,83 @@
 # ---- project ------------------------------------------------------------- #
-NAME       = miniRT
+NAME		= miniRT
 
 # ---- compiler / linker --------------------------------------------------- #
-CC         = cc
-CFLAGS     = -Wall -Wextra -Werror -MMD -MP
-ARENA_SIZE ?= 64
-CPPFLAGS   = -I inc -I $(LIBFT_DIR) -I $(LIBFT_DIR)/arena -I $(LIBFT_DIR)/gnl -D ARENA_SIZE=$(ARENA_SIZE)
-LDFLAGS    =
-LDLIBS     = -lmlx -lX11 -lXext -lm
+CC			= clang
+CFLAGS		= -Wall -Wextra -Werror -MMD -MP
+ARENA_SIZE	?= 64
+CPPFLAGS	= -I inc -I $(LIBFT_DIR) -I $(LIBFT_DIR)/arena -I $(LIBFT_DIR)/gnl -D ARENA_SIZE=$(ARENA_SIZE)
+LDFLAGS 	=
+LDLIBS		= -lmlx -lX11 -lXext -lm
+RM			= rm
+RMFLAGS		= -rf
+
+# ---- make ---------------------------------------------------------------- #
+ifeq ($(filter -j% --jobs%,$(MAKEFLAGS)),)
+MAKEFLAGS += -j$(shell nproc 2>/dev/null || echo 1)
+endif
 
 # ---- build directories --------------------------------------------------- #
-RELEASE_DIR = build/release
-DEBUG_DIR   = build/debug
+BUILD_DIR		= build
+RELEASE_DIR		= $(BUILD_DIR)/release
+DEBUG_DIR		= $(BUILD_DIR)/debug
+RELEASE_NAME	= $(RELEASE_DIR)/$(NAME)
+DEBUG_NAME		= $(DEBUG_DIR)/$(NAME)
 
 # ---- libraries ----------------------------------------------------------- #
-LIBFT_DIR     = libft
-LIBFT_RELEASE = $(LIBFT_DIR)/libft.a
-LIBFT_DEBUG   = $(DEBUG_DIR)/libft.a
+LIBFT_DIR		= libft
+LIBFT_RELEASE	= $(LIBFT_DIR)/build/release/libft.a
+LIBFT_DEBUG		= $(LIBFT_DIR)/build/debug/libft.a
 
 # ---- sources ------------------------------------------------------------- #
-SRCS        = \
-			constructors.c \
-			main.c \
-			main_loop.c \
-			init.c \
-			hooks.c \
-			exit_handling.c \
-			render.c \
-			intersection.c \
-			vector_utils.c \
-			vector_basic.c \
-			vector_geometry.c
+SRCS	= \
+		constructors.c \
+		main.c \
+		main_loop.c \
+		init.c \
+		hooks.c \
+		exit_handling.c \
+		render.c \
+		intersection.c \
+		vector_utils.c \
+		vector_basics.c \
+		vector_geometry.c
 
-DEBUG_SRCS  =
+DEBUG_SRCS 	=
 
-
-RELEASE_OBJS = $(addprefix $(RELEASE_DIR)/, $(SRCS:.c=.o))
-DEBUG_OBJS   = $(addprefix $(DEBUG_DIR)/, $(SRCS:.c=.o)) \
-               $(addprefix $(DEBUG_DIR)/, $(DEBUG_SRCS:.c=.o))
+# ---- objects / dependencies ---------------------------------------------- #
+RELEASE_OBJS	= $(addprefix $(RELEASE_DIR)/, $(SRCS:.c=.o))
+DEBUG_OBJS  	= $(addprefix $(DEBUG_DIR)/, $(SRCS:.c=.o)) \
+				  $(addprefix $(DEBUG_DIR)/, $(DEBUG_SRCS:.c=.o))
+DEPS			= $(RELEASE_OBJS:.o=.d) $(DEBUG_OBJS:.o=.d)
 
 # ---- source lookup ------------------------------------------------------- #
 vpath %.c srcs
 
 # ---- build flags --------------------------------------------------------- #
-RELEASE_FLAGS = -O2
-DEBUG_FLAGS   = -O0 -g3 -DDEBUG
+RELEASE_FLAGS	= -O2
+DEBUG_FLAGS		= -O0 -g3 -DDEBUG
 
 # ---- targets ------------------------------------------------------------- #
-all: $(NAME)
+all: $(RELEASE_NAME)
+	ln -sf $(RELEASE_NAME) $(NAME)
 
-$(NAME): $(RELEASE_OBJS) $(LIBFT_RELEASE)
+debug: $(DEBUG_NAME)
+	ln -sf $(DEBUG_NAME) $(NAME)-debug
+
+$(RELEASE_NAME): $(RELEASE_OBJS) $(LIBFT_RELEASE)
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
-debug: $(NAME)-debug
-
-$(NAME)-debug: $(DEBUG_DIR)/$(NAME)
-	ln -sf $(DEBUG_DIR)/$(NAME) $@
-
-$(DEBUG_DIR)/$(NAME): $(DEBUG_OBJS) $(LIBFT_DEBUG)
-	@mkdir -p $(@D)
+$(DEBUG_NAME): $(DEBUG_OBJS) $(LIBFT_DEBUG)
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 # ---- object compilation -------------------------------------------------- #
-$(RELEASE_DIR)/%.o: BUILD_FLAGS = $(RELEASE_FLAGS)
-$(DEBUG_DIR)/%.o:   BUILD_FLAGS = $(DEBUG_FLAGS)
-
 $(RELEASE_DIR)/%.o: %.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(BUILD_FLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(RELEASE_FLAGS) -c $< -o $@
 
 $(DEBUG_DIR)/%.o: %.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(BUILD_FLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(DEBUG_FLAGS) -c $< -o $@
 
 # ---- libft --------------------------------------------------------------- #
 $(LIBFT_RELEASE): FORCE
@@ -79,26 +85,26 @@ $(LIBFT_RELEASE): FORCE
 
 $(LIBFT_DEBUG): FORCE
 	$(MAKE) -C $(LIBFT_DIR) debug
-	cp -u $(LIBFT_RELEASE) $@
 
 FORCE:
 
 # ---- utility targets ----------------------------------------------------- #
-run: $(NAME)
+run: all
 	./$(NAME)
 
-run-debug: $(NAME)-debug
+run-debug: debug
 	./$(NAME)-debug
 
 doc:
+	@mkdir -p docs
 	printf '%s\n' \
-	  'OUTPUT_DIRECTORY = docs' \
-	  'GENERATE_MAN = YES' \
-	  'MAN_OUTPUT = man' \
-	  'INPUT = inc srcs debug_srcs' \
-	  'EXTRACT_ALL = YES' \
-	  'OPTIMIZE_OUTPUT_FOR_C = YES' \
-	  > docs/Doxyfile
+		'OUTPUT_DIRECTORY = docs' \
+		'GENERATE_MAN = YES' \
+		'MAN_OUTPUT = man' \
+		'INPUT = inc srcs debug_srcs' \
+		'EXTRACT_ALL = YES' \
+		'OPTIMIZE_OUTPUT_FOR_C = YES' \
+	> docs/Doxyfile
 	doxygen docs/Doxyfile
 
 compile_flags.txt:
@@ -108,21 +114,20 @@ compile_flags.txt:
 		echo $$flag >> $@ ; \
 	done
 
-test: $(NAME) $(NAME)-debug
+test: all debug
 	./test/runner.sh
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
-	rm -rf build docs/Doxyfile
+	$(RM) $(RMFLAGS) $(RELEASE_OBJS) $(DEBUG_OBJS) $(DEPS)
+	$(RM) $(RMFLAGS) docs/Doxyfile
 
-fclean: clean
+fclean:
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	rm -f $(NAME) $(NAME)-debug
-	rm -rf docs
-	rm -f compile_flags
-	rm -rf log
+	$(RM) $(RMFLAGS) $(NAME) $(NAME)-debug
+	$(RM) $(RMFLAGS) $(BUILD_DIR) docs log compile_flags.txt
 
-re: 
+re:
 	$(MAKE) fclean
 	$(MAKE) all
 
@@ -130,5 +135,4 @@ re:
 .PHONY: all debug run run-debug doc test clean fclean re FORCE
 
 # ---- dependencies -------------------------------------------------------- #
--include $(RELEASE_OBJS:.o=.d)
--include $(DEBUG_OBJS:.o=.d)
+-include $(DEPS)
