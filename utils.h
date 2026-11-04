@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/01 23:33:30 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/04 14:15:20 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_quaternion
 
 typedef struct s_color
 {
-	t_color_component	a;
 	t_color_component	r;
 	t_color_component	g;
 	t_color_component	b;
@@ -120,13 +119,13 @@ typedef struct s_sphere
 typedef struct s_plane
 {
 	t_world_coord		pos;
-	t_vec3				rot;
+	t_vec3				dir;
 }	t_plane;
 
 typedef struct s_cylinder
 {
 	t_world_coord		center;
-	t_vec3				rot;
+	t_vec3				dir;
 	double				diameter;
 	double				height;
 }	t_cylinder;
@@ -152,7 +151,7 @@ typedef struct s_object
 {
 	t_object_type	type;
 	t_object_data	data;
-	t_xcolor		color;
+	t_color			color;
 }	t_object;
 
 typedef struct s_state
@@ -237,5 +236,8 @@ int				call_exit(void *data);
 void			render(t_state *state);
 void			handle_exit(t_state *state, t_exit_data data);
 t_vec3			rotate_vec3(t_quaternion quat, t_vec3 vec);
+t_color			new_color(t_color_component r, t_color_component g,
+					t_color_component b);
+t_xcolor		x_color_from_color(t_color color);
 
 #endif

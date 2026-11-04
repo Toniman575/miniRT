@@ -6,11 +6,12 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/01 22:08:12 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/04 14:14:52 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+#include "vector.h"
 
 void	init_mlx(t_state *state)
 {
@@ -49,16 +50,20 @@ void	init_dummy(t_state *state)
 		.fov = 70.0
 	};
 	state->camera = cam;
-	state->objects = malloc(sizeof(t_object) * 2);
-	state->objects_n = 2;
+	state->objects = malloc(sizeof(t_object) * 3);
+	state->objects_n = 3;
 	state->objects[0].type = OBJ_SPHERE;
 	state->objects[0].data.sphere.center = new_world_coord(0., 0., -5.);
 	state->objects[0].data.sphere.diameter = 2.;
-	state->objects[0].color = 0x00FF0000;
+	state->objects[0].color = new_color(255, 0, 0);
 	state->objects[1].type = OBJ_SPHERE;
 	state->objects[1].data.sphere.center = new_world_coord(2., 0., -6.);
 	state->objects[1].data.sphere.diameter = 2.;
-	state->objects[1].color = 0x0000FF00;
+	state->objects[1].color = new_color(0, 255, 0);
+	state->objects[2].type = OBJ_PLANE;
+	state->objects[2].data.plane.dir = vec3_normalize(new_vec3(1., -1., 0.));
+	state->objects[2].data.plane.pos = new_world_coord(100., -1., 0.);
+	state->objects[2].color = new_color(0, 0, 255);
 }
 
 void	init(t_state *state, char *file)
