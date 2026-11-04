@@ -37,17 +37,18 @@ LIBFT_DEBUG		= $(LIBFT_DIR)/build/debug/libft.a
 # ---- sources ------------------------------------------------------------- #
 SRCS	= \
 		constructors.c \
+		exit_handling.c \
 		from.c \
+		hooks.c \
+		init.c \
+		intersection.c \
 		main.c \
 		main_loop.c \
-		init.c \
-		hooks.c \
-		exit_handling.c \
+		parsing.c \
 		render.c \
-		intersection.c \
-		vector_utils.c \
 		vector_basics.c \
-		vector_geometry.c
+		vector_geometry.c \
+		vector_utils.c
 
 DEBUG_SRCS 	=
 
@@ -58,7 +59,7 @@ DEBUG_OBJS  	= $(addprefix $(DEBUG_DIR)/, $(SRCS:.c=.o)) \
 DEPS			= $(RELEASE_OBJS:.o=.d) $(DEBUG_OBJS:.o=.d)
 
 # ---- source lookup ------------------------------------------------------- #
-vpath %.c srcs
+vpath %.c src
 
 # ---- build flags --------------------------------------------------------- #
 RELEASE_FLAGS	= -O2

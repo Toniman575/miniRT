@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 17:29:01 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/04 20:11:30 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,29 +56,33 @@ void	init_dummy(t_state *state)
 	idx = get_idx_from_offset(&state->objects,
 		arena_alloc(&state->objects, 3 * sizeof(t_object), _Alignof(t_object)));
 	objects = (t_object *)state->objects.buf;
-	objects[1].type = OBJ_SPHERE;
-	objects[1].data.sphere.center = new_world_coord(0., 0., -5.);
-	objects[1].data.sphere.radius = 1.;
-	objects[1].color = new_color(255, 0, 0);
-	objects[2].type = OBJ_SPHERE;
-	objects[2].data.sphere.center = new_world_coord(2., 0., -6.);
-	objects[2].data.sphere.radius = 1.;
-	objects[2].color = new_color(0, 255, 0);
-	objects[3].type = OBJ_PLANE;
-	objects[3].data.plane.dir = vec3_normalize(new_vec3(1., -1., 0.));
-	objects[3].data.plane.pos = new_world_coord(100., -1., 0.);
-	objects[3].color = new_color(0, 0, 255);
+	objects[idx].type = OBJ_SPHERE;
+	objects[idx].data.sphere.center = new_world_coord(0., 0., -5.);
+	objects[idx].data.sphere.radius = 1.;
+	objects[idx].color = new_color(255, 0, 0);
+	objects[idx + 1].type = OBJ_SPHERE;
+	objects[idx + 1].data.sphere.center = new_world_coord(2., 0., -6.);
+	objects[idx + 1].data.sphere.radius = 1.;
+	objects[idx + 1].color = new_color(0, 255, 0);
+	objects[idx + 2].type = OBJ_PLANE;
+	objects[idx + 2].data.plane.dir = vec3_normalize(new_vec3(1., -1., 0.));
+	objects[idx + 2].data.plane.pos = new_world_coord(100., -1., 0.);
+	objects[idx + 2].color = new_color(0, 0, 255);
 }
 
+void	init_arena(t_state *state)
+{
+	state->objects = arena_init(ARENA_SIZE, sizeof(t_object));
+	arena_hook_cleanup(&state->objects, (void (*)(void *))cleanup, state);
+}
 
 void	init(t_state *state, char *file)
 {
 	(void) file;
 
 	ft_memset(state, 0, sizeof(t_state));
-	state->objects = arena_init(ARENA_SIZE, sizeof(t_object));
-	arena_hook_cleanup(&state->objects, (void (*)(void *))cleanup, state);
-	//parse_scene(&state, file);
+	init_arena(state);
+	parse_scene(state, file);
 	init_dummy(state);
 	init_dim(state);
 	init_mlx(state);

@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 16:59:13 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/04 19:26:56 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 
 # include <stdint.h>
 # include <fcntl.h>
+# include <string.h>
 
 # include <mlx.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
 
-# include "libft/libft.h"
-# include "libft/arena/arena.h"
+# include "libft.h"
+# include "get_next_line.h"
+# include "arena.h"
 # include "vector.h"
 
 # define MSB_FIRST 1
@@ -143,6 +145,7 @@ typedef union u_object_data
 typedef enum e_object_type
 {
 	OBJ_NONE,
+	OBJ_AMBIENT,
 	OBJ_LIGHT,
 	OBJ_SPHERE,
 	OBJ_PLANE,
@@ -242,5 +245,6 @@ t_color			new_color(t_color_component r, t_color_component g,
 					t_color_component b);
 t_xcolor		x_color_from_color(t_color color);
 void			cleanup(t_state *state);
+void			parse_scene(t_state *state, char *path);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/31 16:54:15 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 13:57:34 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/04 18:12:48 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,9 @@ t_color	new_color(t_color_component r, t_color_component g, t_color_component b)
 	new.g = g;
 	new.b = b;
 	return (new);
+}
+
+size_t	alloc_object(t_state *state)
+{
+	return (arena_alloc(&state->objects, sizeof(t_object), _Alignof(t_object)));
 }

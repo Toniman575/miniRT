@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:40:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/03 12:22:03 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/04 20:30:39 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 /// TODO: Viewport field in camera struct.
 
 #include "utils.h"
-#include "libft/libft.h"
 
 void	validate_scene_path(int argc, char *path)
 {

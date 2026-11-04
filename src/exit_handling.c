@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 21:21:17 by sancuta           #+#    #+#             */
-/*   Updated: 2026/10/31 16:48:18 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/04 20:02:18 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	cleanup(t_state *state)
 		mlx_destroy_display(state->mlx_ptr);
 		free(state->mlx_ptr);
 	}
+	arena_free(&state->objects);
+	get_next_line(-255);
 }
 
 void	handle_exit(t_state *state, t_exit_data data)
