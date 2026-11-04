@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 11:55:20 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/04 13:57:25 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_quaternion
 
 typedef struct s_color
 {
-	t_color_component	a;
 	t_color_component	r;
 	t_color_component	g;
 	t_color_component	b;

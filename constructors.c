@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/31 16:54:15 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 11:56:32 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/04 13:57:34 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_color	new_color(t_color_component r, t_color_component g, t_color_component b)
 {
 	t_color	new;
 
-	new.a = 0;
 	new.r = r;
 	new.g = g;
 	new.b = b;
