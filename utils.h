@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 14:15:20 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/04 16:59:13 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <X11/keysym.h>
 
 # include "libft/libft.h"
+# include "libft/arena/arena.h"
 # include "vector.h"
 
 # define MSB_FIRST 1
@@ -36,8 +37,8 @@
 # define IMG_HEIGHT	1080
 
 # define AMBIENT	0x1
-# define CAMERA	0x2
-# define LIGHT	0x4
+# define CAMERA		0x2
+# define LIGHT		0x4
 
 # ifndef ARENA_SIZE
 #  define ARENA_SIZE 64
@@ -113,7 +114,7 @@ typedef struct s_light
 typedef struct s_sphere
 {
 	t_world_coord		center;
-	double				diameter;
+	double				radius;
 }	t_sphere;
 
 typedef struct s_plane
@@ -126,7 +127,7 @@ typedef struct s_cylinder
 {
 	t_world_coord		center;
 	t_vec3				dir;
-	double				diameter;
+	double				radius;
 	double				height;
 }	t_cylinder;
 
@@ -141,10 +142,12 @@ typedef union u_object_data
 
 typedef enum e_object_type
 {
+	OBJ_NONE,
 	OBJ_LIGHT,
 	OBJ_SPHERE,
 	OBJ_PLANE,
 	OBJ_CYLINDER,
+	OBJ_COUNT
 }	t_object_type;
 
 typedef struct s_object
@@ -159,8 +162,7 @@ typedef struct s_state
 	t_win_data	win;
 	t_img_data	img;
 	void		*mlx_ptr;
-	t_object	*objects;
-	uint16_t	objects_n;
+	t_arena		objects;
 	t_camera	camera;
 }	t_state;
 
@@ -239,5 +241,6 @@ t_vec3			rotate_vec3(t_quaternion quat, t_vec3 vec);
 t_color			new_color(t_color_component r, t_color_component g,
 					t_color_component b);
 t_xcolor		x_color_from_color(t_color color);
+void			cleanup(t_state *state);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 14:14:52 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/04 17:29:01 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	init_dim(t_state *state)
 
 void	init_dummy(t_state *state)
 {
+	t_object	*objects;
+	uint64_t	idx;
 	t_camera	cam = {
 		.pos = {0., 0., 0.},
 		.rotation = {1., 0., 0., 0.},
@@ -49,27 +51,33 @@ void	init_dummy(t_state *state)
 		.rot_speed = 0.05,
 		.fov = 70.0
 	};
+
 	state->camera = cam;
-	state->objects = malloc(sizeof(t_object) * 3);
-	state->objects_n = 3;
-	state->objects[0].type = OBJ_SPHERE;
-	state->objects[0].data.sphere.center = new_world_coord(0., 0., -5.);
-	state->objects[0].data.sphere.diameter = 2.;
-	state->objects[0].color = new_color(255, 0, 0);
-	state->objects[1].type = OBJ_SPHERE;
-	state->objects[1].data.sphere.center = new_world_coord(2., 0., -6.);
-	state->objects[1].data.sphere.diameter = 2.;
-	state->objects[1].color = new_color(0, 255, 0);
-	state->objects[2].type = OBJ_PLANE;
-	state->objects[2].data.plane.dir = vec3_normalize(new_vec3(1., -1., 0.));
-	state->objects[2].data.plane.pos = new_world_coord(100., -1., 0.);
-	state->objects[2].color = new_color(0, 0, 255);
+	idx = get_idx_from_offset(&state->objects,
+		arena_alloc(&state->objects, 3 * sizeof(t_object), _Alignof(t_object)));
+	objects = (t_object *)state->objects.buf;
+	objects[1].type = OBJ_SPHERE;
+	objects[1].data.sphere.center = new_world_coord(0., 0., -5.);
+	objects[1].data.sphere.radius = 1.;
+	objects[1].color = new_color(255, 0, 0);
+	objects[2].type = OBJ_SPHERE;
+	objects[2].data.sphere.center = new_world_coord(2., 0., -6.);
+	objects[2].data.sphere.radius = 1.;
+	objects[2].color = new_color(0, 255, 0);
+	objects[3].type = OBJ_PLANE;
+	objects[3].data.plane.dir = vec3_normalize(new_vec3(1., -1., 0.));
+	objects[3].data.plane.pos = new_world_coord(100., -1., 0.);
+	objects[3].color = new_color(0, 0, 255);
 }
+
 
 void	init(t_state *state, char *file)
 {
-	state = ft_memset(state, 0, sizeof(t_state));
 	(void) file;
+
+	ft_memset(state, 0, sizeof(t_state));
+	state->objects = arena_init(ARENA_SIZE, sizeof(t_object));
+	arena_hook_cleanup(&state->objects, (void (*)(void *))cleanup, state);
 	//parse_scene(&state, file);
 	init_dummy(state);
 	init_dim(state);

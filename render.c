@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 12:15:07 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/04 17:04:01 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,17 @@ t_option	cast_ray(t_state *state, t_ray ray)
 	t_option	is;
 	t_option	c_is;
 	uint16_t	i;
+	uint16_t	max_objects;
+	t_object	*objects;
 
+	objects = (t_object *)(state->objects.buf);
+	max_objects = get_idx_from_offset(&state->objects, state->objects.offset);
 	is.type = OT_NONE;
 	c_is.type = OT_NONE;
-	i = -1;
-	while (++i < state->objects_n)
+	i = 0;
+	while (++i < max_objects)
 	{
-		c_is = xchecker(&state->objects[i], &ray);
+		c_is = xchecker(&objects[i], &ray);
 		if (is.type == OT_NONE && c_is.type != OT_NONE)
 			is = c_is;
 		else if (c_is.type != OT_NONE && is.type != OT_NONE
