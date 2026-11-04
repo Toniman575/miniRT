@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:42:59 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/04 11:43:18 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/04 11:55:57 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 t_option	xchecker(t_object *object, t_ray *ray)
 {
 	t_option	option;
-	t_vec3 		oc;
+	t_vec3		oc;
 
 	option.type = OT_NONE;
 	if (object->type == OBJ_SPHERE)

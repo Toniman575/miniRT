@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 10:57:09 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/04 11:55:20 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ typedef struct s_object
 {
 	t_object_type	type;
 	t_object_data	data;
-	t_color		color;
+	t_color			color;
 }	t_object;
 
 typedef struct s_state
@@ -221,6 +221,8 @@ int				call_exit(void *data);
 void			render(t_state *state);
 void			handle_exit(t_state *state, t_exit_data data);
 t_vec3			rotate_vec3(t_quaternion quat, t_vec3 vec);
-t_color			new_color(t_color_component r, t_color_component g, t_color_component b);
+t_color			new_color(t_color_component r, t_color_component g,
+					t_color_component b);
+t_xcolor		x_color_from_color(t_color color);
 
 #endif

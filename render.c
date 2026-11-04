@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 10:59:13 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/04 11:54:54 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,13 @@
 #include <math.h>
 #include <stdint.h>
 
-t_xcolor x_color_from_color(t_color color)
-{
-	return (((t_xcolor)color.a << 24)
-	| ((t_xcolor)color.r << 16)
-	| ((t_xcolor)color.g << 8)
-	| (t_xcolor)color.b);
-}
-
 t_xcolor	get_color_from_ray(t_option intersection)
 {
 	if (intersection.type == OT_NONE)
 		return (0x00000000);
 	else
-		return (x_color_from_color(intersection.value.intersection.object->color));
+		return (x_color_from_color(
+				intersection.value.intersection.object->color));
 }
 
 t_option	cast_ray(t_state *state, t_ray ray)

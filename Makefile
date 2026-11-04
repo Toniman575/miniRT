@@ -31,6 +31,7 @@ LIBFT_DEBUG		= $(LIBFT_DIR)/build/debug/libft.a
 # ---- sources ------------------------------------------------------------- #
 SRCS	= \
 		constructors.c \
+		from.c \
 		main.c \
 		main_loop.c \
 		init.c \
