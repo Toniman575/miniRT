@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:40:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/01 22:42:56 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/03 12:22:03 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void	validate_scene_path(int argc, char *path)
 
 	if (argc != 2)
 	{
-		handle_exit(&((t_state){0}), (t_exit_data){"minirt",
+		handle_exit(NULL, (t_exit_data){"minirt",
 			"wrong amount of parameters.\nUsage",
 			"./minirt /path/to/scene.rt", EXIT_FAILURE});
 	}
 	len = ft_strlen(path);
-	if (ft_strncmp(path + len - 3))
-		handle_exit(state, (t_exit_data){"minirt", "parse_scene",
+	if (ft_strncmp(path + len - 3, ".rt", 4))
+		handle_exit(NULL, (t_exit_data){"minirt", "parse_scene",
 			"not a .rt file", EXIT_FAILURE});
 }
 
