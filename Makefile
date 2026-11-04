@@ -2,7 +2,7 @@
 NAME		= miniRT
 
 # ---- compiler / linker --------------------------------------------------- #
-CC			= clang
+CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -MMD -MP
 ARENA_SIZE	?= 64
 CPPFLAGS	= -I inc -I $(LIBFT_DIR) -I $(LIBFT_DIR)/arena -I $(LIBFT_DIR)/gnl -D ARENA_SIZE=$(ARENA_SIZE)
@@ -14,6 +14,12 @@ RMFLAGS		= -rf
 # ---- make ---------------------------------------------------------------- #
 ifeq ($(filter -j% --jobs%,$(MAKEFLAGS)),)
 MAKEFLAGS += -j$(shell nproc 2>/dev/null || echo 1)
+endif
+
+# ---- sanitizer ----------------------------------------------------------- #
+ifdef SAN
+CFLAGS  += -fsanitize=address
+LDFLAGS += -fsanitize=address
 endif
 
 # ---- build directories --------------------------------------------------- #
@@ -62,6 +68,9 @@ DEBUG_FLAGS		= -O0 -g3 -DDEBUG
 all: $(RELEASE_NAME)
 	ln -sf $(RELEASE_NAME) $(NAME)
 
+asan:
+	$(MAKE) debug SAN=1
+
 debug: $(DEBUG_NAME)
 	ln -sf $(DEBUG_NAME) $(NAME)-debug
 
@@ -91,10 +100,12 @@ FORCE:
 
 # ---- utility targets ----------------------------------------------------- #
 run: all
-	./$(NAME)
+	touch dummy.rt
+	./$(NAME) dummy.rt
 
 run-debug: debug
-	./$(NAME)-debug
+	touch dummy.rt
+	./$(NAME)-debug dummy.rt
 
 doc:
 	@mkdir -p docs
@@ -121,7 +132,7 @@ test: all debug
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
 	$(RM) $(RMFLAGS) $(RELEASE_OBJS) $(DEBUG_OBJS) $(DEPS)
-	$(RM) $(RMFLAGS) docs/Doxyfile
+	$(RM) $(RMFLAGS) docs/Doxyfile dummy.rt
 
 fclean:
 	$(MAKE) -C $(LIBFT_DIR) fclean
@@ -133,7 +144,7 @@ re:
 	$(MAKE) all
 
 # ---- phony targets ------------------------------------------------------- #
-.PHONY: all debug run run-debug doc test clean fclean re FORCE
+.PHONY: all debug asan run run-debug doc test clean fclean re FORCE
 
 # ---- dependencies -------------------------------------------------------- #
 -include $(DEPS)
