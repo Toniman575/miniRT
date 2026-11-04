@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 11:54:54 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/04 12:15:07 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 	ray.origin = state->camera.pos;
 	ray.dir = rotate_vec3(state->camera.rotation,
 			vec3_normalize(new_vec3(coord.x - half_width,
-					coord.y - half_height, -distance)));
+					half_height - coord.y, -distance)));
 	return (ray);
 }
 

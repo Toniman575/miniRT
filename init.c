@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 11:47:51 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/04 12:17:06 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	init_dummy(t_state *state)
 	state->objects[1].data.sphere.diameter = 2.;
 	state->objects[1].color = new_color(0, 255, 0);
 	state->objects[2].type = OBJ_PLANE;
-	state->objects[2].data.plane.dir = new_vec3(0., 1., 0.);
-	state->objects[2].data.plane.pos = new_world_coord(0., -1., 0.);
+	state->objects[2].data.plane.dir = vec3_normalize(new_vec3(1., -1., 0.));
+	state->objects[2].data.plane.pos = new_world_coord(100., -1., 0.);
 	state->objects[2].color = new_color(0, 0, 255);
 }
 

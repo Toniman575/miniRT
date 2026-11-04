@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:42:59 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/04 11:55:57 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/04 12:18:05 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_option	xchecker(t_object *object, t_ray *ray)
 			option.type = OT_NONE;
 		else
 		{
-			double t = vec3_dot(vec3_sub(object->data.plane.dir, ray->origin),
+			double t = vec3_dot(vec3_sub(object->data.plane.pos, ray->origin),
 				object->data.plane.dir) / d;
 			if (islessequal(t, 0.))
 				option.type = OT_NONE;
