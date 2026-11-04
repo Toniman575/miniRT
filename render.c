@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/03 14:27:45 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/04 10:59:13 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@
 
 t_xcolor x_color_from_color(t_color color)
 {
-	
+	return (((t_xcolor)color.a << 24)
+	| ((t_xcolor)color.r << 16)
+	| ((t_xcolor)color.g << 8)
+	| (t_xcolor)color.b);
 }
 
 t_xcolor	get_color_from_ray(t_option intersection)

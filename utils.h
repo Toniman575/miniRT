@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/03 14:39:17 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/04 10:57:09 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,5 +221,6 @@ int				call_exit(void *data);
 void			render(t_state *state);
 void			handle_exit(t_state *state, t_exit_data data);
 t_vec3			rotate_vec3(t_quaternion quat, t_vec3 vec);
+t_color			new_color(t_color_component r, t_color_component g, t_color_component b);
 
 #endif
