@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 19:26:56 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/07 19:51:13 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,8 @@ typedef struct s_state
 	t_img_data	img;
 	void		*mlx_ptr;
 	t_arena		objects;
+	t_light		light;
+	t_ambient		ambient;
 	t_camera	camera;
 }	t_state;
 
@@ -192,6 +194,7 @@ typedef struct s_ray
 typedef struct s_intersection
 {
 	double			t;
+	t_world_coord	hitpoint;
 	t_object		*object;
 }	t_intersection;
 

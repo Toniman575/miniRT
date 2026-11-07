@@ -6,13 +6,17 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:42:59 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/04 14:36:16 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/07 19:09:45 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include "vector.h"
 #include <math.h>
+
+inline t_world_coord	get_hitpoint(t_ray *ray, double t) {
+	return (vec3_add(ray->origin, vec3_mult(ray->dir, t)));
+}
 
 /// TODO:	Figure out which vars are needed for each object checker function
 /// 		and write a seperate function for each.
@@ -25,18 +29,17 @@ t_option	xchecker(t_object *object, t_ray *ray)
 	if (object->type == OBJ_SPHERE)
 	{
 		oc = vec3_sub(ray->origin, object->data.sphere.center);
-		double a = vec3_dot(ray->dir, ray->dir);
 		double b = 2. * vec3_dot(oc, ray->dir);
 		double c = vec3_dot(oc, oc)
 			- ((object->data.sphere.radius)
 			* (object->data.sphere.radius));
-		double delta = b * b - 4. * a * c;
+		double delta = b * b - 4. * c;
 		if (islessequal(delta, 0.))
 			option.type = OT_NONE;
 		else {
 			double sqrt_delta = sqrt(delta);
-			double t0 = (-b - sqrt_delta) / (2. * a);
-			double t1 = (-b + sqrt_delta) / (2. * a);
+			double t0 = (-b - sqrt_delta) / 2.;
+			double t1 = (-b + sqrt_delta) / 2.;
 			if (islessequal(t0, 0.))
 				t0 = t1;
 			if (islessequal(t0, 0.))
@@ -46,6 +49,7 @@ t_option	xchecker(t_object *object, t_ray *ray)
 				option.type = OT_INTERSECTION;
 				option.value.intersection.object = object;
 				option.value.intersection.t = t0;
+				option.value.intersection.hitpoint = get_hitpoint(ray, t0);
 			}
 		}
 	}
@@ -65,6 +69,7 @@ t_option	xchecker(t_object *object, t_ray *ray)
 				option.type = OT_INTERSECTION;
 				option.value.intersection.object = object;
 				option.value.intersection.t = t;
+				option.value.intersection.hitpoint = get_hitpoint(ray, t);
 			}
 		}
 	}

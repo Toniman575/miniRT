@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 20:11:30 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/07 19:58:06 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,22 @@ void	init_dummy(t_state *state)
 		arena_alloc(&state->objects, 3 * sizeof(t_object), _Alignof(t_object)));
 	objects = (t_object *)state->objects.buf;
 	objects[idx].type = OBJ_SPHERE;
-	objects[idx].data.sphere.center = new_world_coord(0., 0., -5.);
+	objects[idx].data.sphere.center = new_world_coord(-3., 0., -5.);
 	objects[idx].data.sphere.radius = 1.;
 	objects[idx].color = new_color(255, 0, 0);
 	objects[idx + 1].type = OBJ_SPHERE;
-	objects[idx + 1].data.sphere.center = new_world_coord(2., 0., -6.);
+	objects[idx + 1].data.sphere.center = new_world_coord(3., 0., -5.);
 	objects[idx + 1].data.sphere.radius = 1.;
 	objects[idx + 1].color = new_color(0, 255, 0);
 	objects[idx + 2].type = OBJ_PLANE;
-	objects[idx + 2].data.plane.dir = vec3_normalize(new_vec3(1., -1., 0.));
-	objects[idx + 2].data.plane.pos = new_world_coord(100., -1., 0.);
+	objects[idx + 2].data.plane.dir = vec3_normalize(new_vec3(0., 1., 0.));
+	objects[idx + 2].data.plane.pos = new_world_coord(0., -0.5, 0.);
 	objects[idx + 2].color = new_color(0, 0, 255);
+	state->light = (t_light){
+		.pos = new_vec3(0., 0., -5.5),
+		.brightness = 5.,
+	};
+	state->ambient.brightness = 0.1;
 }
 
 void	init_arena(t_state *state)

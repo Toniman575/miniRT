@@ -6,22 +6,44 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 17:56:07 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/07 19:55:47 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "utils.h"
 #include "vector.h"
 #include <math.h>
 #include <stdint.h>
 
-t_xcolor	get_color_from_ray(t_option intersection)
+t_vec3 get_normal(t_intersection intersection)
 {
+	if (intersection.object->type == OBJ_SPHERE)
+		return (vec3_normalize(vec3_sub(intersection.hitpoint, intersection.object->data.sphere.center)));
+	else if (intersection.object->type == OBJ_PLANE)
+		return (intersection.object->data.plane.dir);
+	else 
+		return (new_vec3(0., 0., 0.));
+}
+
+t_xcolor	get_color_from_ray(t_state *state, t_option intersection)
+{
+	t_color color;
+	t_intersection x;
+
+	ft_memset(&color, 0, sizeof(t_color));
 	if (intersection.type == OT_NONE)
-		return (0x00000000);
+		return (0);
 	else
+	{
+		x = intersection.value.intersection;
+		color = intersection.value.intersection.object->color;
+		t_vec3 normal = get_normal(x);
+		double intensity = fmin(1., fmax(0., vec3_dot(normal, 
+			vec3_sub(state->light.pos, x.hitpoint))) + state->ambient.brightness);
 		return (x_color_from_color(
-				intersection.value.intersection.object->color));
+			new_color(color.r * intensity, color.g * intensity, color.b * intensity)));
+	}
 }
 
 t_option	cast_ray(t_state *state, t_ray ray)
@@ -91,7 +113,7 @@ void	render(t_state *state)
 		current.x = -1;
 		while (++current.x < state->win.dim.width)
 		{
-			color = get_color_from_ray(cast_ray(state,
+			color = get_color_from_ray(state, cast_ray(state,
 						viewport_ray(state, current)));
 			put_pixel_to_buffer(state, current,
 				mlx_get_color_value(state->mlx_ptr, color));
