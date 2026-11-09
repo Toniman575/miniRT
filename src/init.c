@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/07 19:58:06 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/09 17:38:04 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	init_dummy(t_state *state)
 	t_object	*objects;
 	uint64_t	idx;
 	t_camera	cam = {
-		.pos = {0., 0., 0.},
+		.pos = {0., 0., 10.},
 		.rotation = {1., 0., 0., 0.},
 		.pan_speed = 0.1,
 		.rot_speed = 0.05,
@@ -66,13 +66,13 @@ void	init_dummy(t_state *state)
 	objects[idx + 1].color = new_color(0, 255, 0);
 	objects[idx + 2].type = OBJ_PLANE;
 	objects[idx + 2].data.plane.dir = vec3_normalize(new_vec3(0., 1., 0.));
-	objects[idx + 2].data.plane.pos = new_world_coord(0., -0.5, 0.);
+	objects[idx + 2].data.plane.pos = new_world_coord(0., -1, 0.);
 	objects[idx + 2].color = new_color(0, 0, 255);
 	state->light = (t_light){
-		.pos = new_vec3(0., 0., -5.5),
+		.pos = new_vec3(1.5, 0., -6),
 		.brightness = 5.,
 	};
-	state->ambient.brightness = 0.1;
+	state->ambient.brightness = 0.005;
 }
 
 void	init_arena(t_state *state)

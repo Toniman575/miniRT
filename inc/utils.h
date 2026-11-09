@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/07 19:51:13 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/09 18:06:51 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdint.h>
 # include <fcntl.h>
 # include <string.h>
+# include <math.h>
 
 # include <mlx.h>
 # include <X11/X.h>
@@ -45,6 +46,8 @@
 # ifndef ARENA_SIZE
 #  define ARENA_SIZE 64
 # endif
+
+# define EPSILON	1e-9
 
 typedef uint8_t		t_color_component;
 typedef uint32_t	t_xcolor;
@@ -167,7 +170,7 @@ typedef struct s_state
 	void		*mlx_ptr;
 	t_arena		objects;
 	t_light		light;
-	t_ambient		ambient;
+	t_ambient	ambient;
 	t_camera	camera;
 }	t_state;
 
@@ -177,6 +180,7 @@ typedef struct s_screen_coord
 	t_coord2d	y;
 }	t_screen_coord;
 
+/// view port coords can be negative
 typedef struct s_view_port_coord
 {
 	int16_t	x;
@@ -246,7 +250,10 @@ void			handle_exit(t_state *state, t_exit_data data);
 t_vec3			rotate_vec3(t_quaternion quat, t_vec3 vec);
 t_color			new_color(t_color_component r, t_color_component g,
 					t_color_component b);
+t_option		cast_ray(t_state *state, t_ray ray);
+t_xcolor		get_color_from_ray(t_state *state, t_option intersection);
 t_xcolor		x_color_from_color(t_color color);
+t_vec3			get_normal(t_intersection intersection);
 void			cleanup(t_state *state);
 void			parse_scene(t_state *state, char *path);
 

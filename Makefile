@@ -36,6 +36,7 @@ LIBFT_DEBUG		= $(LIBFT_DIR)/build/debug/libft.a
 
 # ---- sources ------------------------------------------------------------- #
 SRCS	= \
+		color.c \
 		constructors.c \
 		exit_handling.c \
 		from.c \
@@ -44,6 +45,7 @@ SRCS	= \
 		intersection.c \
 		main.c \
 		main_loop.c \
+		object_utils.c \
 		parsing.c \
 		render.c \
 		vector_basics.c \
@@ -103,10 +105,12 @@ FORCE:
 run: all
 	touch dummy.rt
 	./$(NAME) dummy.rt
+	$(RM) $(RMFLAGS) dummy.rt
 
 run-debug: debug
 	touch dummy.rt
 	./$(NAME)-debug dummy.rt
+	$(RM) $(RMFLAGS) dummy.rt
 
 doc:
 	@mkdir -p docs

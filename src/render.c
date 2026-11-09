@@ -6,45 +6,12 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/07 19:55:47 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/09 18:13:29 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "utils.h"
 #include "vector.h"
-#include <math.h>
-#include <stdint.h>
-
-t_vec3 get_normal(t_intersection intersection)
-{
-	if (intersection.object->type == OBJ_SPHERE)
-		return (vec3_normalize(vec3_sub(intersection.hitpoint, intersection.object->data.sphere.center)));
-	else if (intersection.object->type == OBJ_PLANE)
-		return (intersection.object->data.plane.dir);
-	else 
-		return (new_vec3(0., 0., 0.));
-}
-
-t_xcolor	get_color_from_ray(t_state *state, t_option intersection)
-{
-	t_color color;
-	t_intersection x;
-
-	ft_memset(&color, 0, sizeof(t_color));
-	if (intersection.type == OT_NONE)
-		return (0);
-	else
-	{
-		x = intersection.value.intersection;
-		color = intersection.value.intersection.object->color;
-		t_vec3 normal = get_normal(x);
-		double intensity = fmin(1., fmax(0., vec3_dot(normal, 
-			vec3_sub(state->light.pos, x.hitpoint))) + state->ambient.brightness);
-		return (x_color_from_color(
-			new_color(color.r * intensity, color.g * intensity, color.b * intensity)));
-	}
-}
 
 t_option	cast_ray(t_state *state, t_ray ray)
 {
@@ -71,7 +38,8 @@ t_option	cast_ray(t_state *state, t_ray ray)
 	return (is);
 }
 
-/// TODO: Optimize: Move rotation to be pre computed in the camerastruct and not at each ray.
+/// TODO: Optimize: Move rotation to be pre computed in
+///					the camerastruct and not at each ray.
 t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 {
 	t_ray		ray;
@@ -86,8 +54,8 @@ t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 	distance = half_width / (tan(fov_rad / 2.));
 	ray.origin = state->camera.pos;
 	ray.dir = rotate_vec3(state->camera.rotation,
-		vec3_normalize(new_vec3(coord.x - half_width,
-			half_height - coord.y, -distance)));
+			vec3_normalize(new_vec3(coord.x - half_width,
+					half_height - coord.y, -distance)));
 	return (ray);
 }
 

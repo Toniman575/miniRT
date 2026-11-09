@@ -8,6 +8,8 @@ build/
 miniRT*
 *.out
 test
+dummy.rt
 
 # libraries
 *.a
+
