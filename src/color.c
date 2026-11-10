@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:57:20 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/09 18:09:57 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/10 13:00:54 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,15 @@ static double	light_intensity(t_state *state, t_option *intersection)
 	len = vec3_len(vec3_sub(state->light.pos, x.hitpoint));
 	if (ray_x.type != OT_NONE && (len > ray_x.value.intersection.t))
 		return (state->ambient.brightness);
-	intensity = vec3_dot(get_normal(x),
+	
+	intensity = vec3_dot(get_facing_normal(state, x),
 			vec3_normalize(vec3_sub(state->light.pos, x.hitpoint)));
 	intensity = fmax(0., intensity) + state->ambient.brightness;
 	intensity = fmin(1., intensity);
 	return (intensity);
 }
 // x_color_from_color(
-// 	new_color(color.r * state->ambient.brightness,
+// new_color(color.r * state->ambient.brightness,
 // color.g * state->ambient.brightness, color.b * state->ambient.brightness)));
 
 t_xcolor	get_color_from_ray(t_state *state, t_option intersection)

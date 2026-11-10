@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/09 18:06:51 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/10 12:59:49 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,7 @@ t_option		cast_ray(t_state *state, t_ray ray);
 t_xcolor		get_color_from_ray(t_state *state, t_option intersection);
 t_xcolor		x_color_from_color(t_color color);
 t_vec3			get_normal(t_intersection intersection);
+t_vec3			get_facing_normal(t_state *state, t_intersection intersection);
 void			cleanup(t_state *state);
 void			parse_scene(t_state *state, char *path);
 
