@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/10 13:02:27 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/10 15:21:12 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	init_arena(t_state *state)
 void	init(t_state *state, char *file)
 {
 	(void) file;
-
 	ft_memset(state, 0, sizeof(t_state));
 	init_arena(state);
 	parse_scene(state, file);

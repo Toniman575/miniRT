@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:42:59 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/10 12:46:24 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/10 15:24:25 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ t_world_coord	get_ray_point(t_ray *ray, double t) {
 ///TODO:	Figure out which vars are needed for each object checker function
 /// 		and write a seperate function for each.
 ///			we discard intersections behind the camera t < 0
-///TODO:	stefan: are we checking close to 0, or negative?
-///					for negatives we could use signbit() from math.h
 t_option	xchecker(t_object *object, t_ray *ray)
 {
 	t_option	option;
