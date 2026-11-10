@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/10 12:59:49 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/10 16:06:24 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ typedef struct s_object
 	t_object_type	type;
 	t_object_data	data;
 	t_color			color;
+	bool			faces_camera;
 }	t_object;
 
 typedef struct s_state

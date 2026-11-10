@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:57:20 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/10 15:21:55 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/10 16:45:45 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static double	light_intensity(t_state *state, t_option *intersection)
 		return (state->ambient.brightness);
 	intensity = vec3_dot(get_facing_normal(state, x),
 			vec3_normalize(vec3_sub(state->light.pos, x.hitpoint)));
+	intensity *= state->light.brightness;
 	intensity = fmax(0., intensity) + state->ambient.brightness;
 	intensity = fmin(1., intensity);
 	return (intensity);
