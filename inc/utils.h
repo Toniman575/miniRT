@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/10 16:06:24 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/11 15:31:39 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,14 @@
 
 # define EPSILON	1e-9
 
+# define CAM_IN		-1
+# define CAM_OUT	1
+
+# define CYL_FACES	3
+
 typedef uint8_t		t_color_component;
 typedef uint32_t	t_xcolor;
 typedef uint8_t		t_fov;
-
-typedef struct s_quaternion
-{
-	double	w;
-	double	x;
-	double	y;
-	double	z;
-}	t_quaternion;
 
 typedef struct s_color
 {
@@ -118,8 +115,9 @@ typedef struct s_light
 
 typedef struct s_sphere
 {
-	t_world_coord		center;
-	double				radius;
+	t_world_coord	center;
+	double			radius;
+	double			cam_pos;
 }	t_sphere;
 
 typedef struct s_plane
@@ -248,14 +246,13 @@ int				main_loop(void *data);
 int				call_exit(void *data);
 void			render(t_state *state);
 void			handle_exit(t_state *state, t_exit_data data);
-t_vec3			rotate_vec3(t_quaternion quat, t_vec3 vec);
 t_color			new_color(t_color_component r, t_color_component g,
 					t_color_component b);
 t_option		cast_ray(t_state *state, t_ray ray);
 t_xcolor		get_color_from_ray(t_state *state, t_option intersection);
 t_xcolor		x_color_from_color(t_color color);
 t_vec3			get_normal(t_intersection intersection);
-t_vec3			get_facing_normal(t_state *state, t_intersection intersection);
+//t_vec3			get_facing_normal(t_state *state, t_intersection intersection);
 void			cleanup(t_state *state);
 void			parse_scene(t_state *state, char *path);
 

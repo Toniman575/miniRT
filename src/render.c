@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/09 18:13:29 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/11 16:09:41 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 	half_height = state->win.dim.height / 2.;
 	distance = half_width / (tan(fov_rad / 2.));
 	ray.origin = state->camera.pos;
-	ray.dir = rotate_vec3(state->camera.rotation,
+	ray.dir = vec3_rot(state->camera.rotation,
 			vec3_normalize(new_vec3(coord.x - half_width,
 					half_height - coord.y, -distance)));
 	return (ray);
@@ -70,23 +70,59 @@ void	put_pixel_to_buffer(t_state *state, t_screen_coord sc, uint32_t color)
 	((unsigned int *)state->img.buf)[idx] = color;
 }
 
+void	face_camera(t_state *state, t_option ray)
+{
+	t_object	*object;
+
+	if (ray.type == OT_NONE)
+		return ;
+	object = ray.value.intersection.object;
+	if (object->faces_camera)
+		return ;
+	object->faces_camera = true;
+	if (object->type == OBJ_PLANE)
+	{
+		if (vec3_dot(object->data.plane.dir, vec3_sub(state->camera.pos, object->data.plane.pos)) < -EPSILON)
+			object->data.plane.dir = vec3_mult(object->data.plane.dir, -1);
+	}
+	else if (object->type == OBJ_SPHERE)
+	{
+		if (vec3_len_pow2(
+				vec3_sub(state->camera.pos, object->data.sphere.center))
+			< object->data.sphere.radius * object->data.sphere.radius)
+			object->data.sphere.cam_pos = CAM_IN;
+		else
+			object->data.sphere.cam_pos = CAM_OUT;
+	}
+	else if (object->type == OBJ_CYLINDER)
+		;
+}
+
 void	render(t_state *state)
 {
 	t_screen_coord	current;
 	t_xcolor		color;
+	t_option		ray;
+	size_t			i;
+	t_object		*objects;
 
+	objects = (t_object *)(state->objects.buf);
 	current.y = -1;
 	while (++current.y < state->win.dim.height)
 	{
 		current.x = -1;
 		while (++current.x < state->win.dim.width)
 		{
-			color = get_color_from_ray(state, cast_ray(state,
-						viewport_ray(state, current)));
+			ray = cast_ray(state, viewport_ray(state, current));
+			face_camera(state, ray);
+			color = get_color_from_ray(state, ray);
 			put_pixel_to_buffer(state, current,
 				mlx_get_color_value(state->mlx_ptr, color));
 		}
 	}
 	mlx_put_image_to_window(state->mlx_ptr, state->win.ptr,
 		state->img.ptr, 0, 0);
+	i = get_idx_from_offset(&state->objects, state->objects.offset);
+	while (--i > 0)
+		objects[i].faces_camera = false;
 }

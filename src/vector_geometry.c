@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/31 16:46:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/09 18:15:47 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/11 15:26:52 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ double	vec3_angle(t_vec3 p1, t_vec3 p2)
 }
 */
 
-t_vec3	rotate_vec3(t_quaternion quat, t_vec3 vec)
+t_vec3	vec3_rot(t_quaternion quat, t_vec3 vec)
 {
 	t_vec3	qv;
 	t_vec3	t;
