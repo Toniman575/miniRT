@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/11 15:31:39 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/14 14:49:42 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,11 @@ typedef struct s_plane
 
 typedef struct s_cylinder
 {
-	t_world_coord		center;
-	t_vec3				dir;
-	double				radius;
-	double				height;
+	t_world_coord	center;
+	t_vec3			dir;
+	double			radius;
+	double			height;
+	double			cam_pos;
 }	t_cylinder;
 
 typedef union u_object_data
@@ -192,7 +193,7 @@ typedef struct s_ray
 	t_vec3			dir;
 }	t_ray;
 
-/// t is a value from 0. to 1., representing the position along the ray where
+/// t is the length of the ray from its origin to hitpoint where
 /// the intersection happens.
 typedef struct s_intersection
 {

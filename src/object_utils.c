@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:54:43 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/11 15:04:11 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/14 14:44:04 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_vec3	get_normal(t_intersection intersection)
 		t_vec3	axial = vec3_mult(intersection.object->data.cylinder.dir, vec3_dot(v, intersection.object->data.cylinder.dir));
 		t_vec3	radial = vec3_sub(v, axial);
 		return (vec3_mult(vec3_normalize(radial),
-				intersection.object->data.sphere.cam_pos));
+				intersection.object->data.cylinder.cam_pos));
 	}
 	else
 		return (new_vec3(0., 0., 0.));

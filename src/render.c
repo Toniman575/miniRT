@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/11 16:09:41 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/14 15:27:04 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ void	put_pixel_to_buffer(t_state *state, t_screen_coord sc, uint32_t color)
 	((unsigned int *)state->img.buf)[idx] = color;
 }
 
-void	face_camera(t_state *state, t_option ray)
+void	face_camera(t_state *state, t_option intersection)
 {
 	t_object	*object;
 
-	if (ray.type == OT_NONE)
+	if (intersection.type == OT_NONE)
 		return ;
-	object = ray.value.intersection.object;
+	object = intersection.value.intersection.object;
 	if (object->faces_camera)
 		return ;
 	object->faces_camera = true;
@@ -89,13 +89,24 @@ void	face_camera(t_state *state, t_option ray)
 	{
 		if (vec3_len_pow2(
 				vec3_sub(state->camera.pos, object->data.sphere.center))
-			< object->data.sphere.radius * object->data.sphere.radius)
+			< pow(object->data.sphere.radius, 2.))
 			object->data.sphere.cam_pos = CAM_IN;
 		else
 			object->data.sphere.cam_pos = CAM_OUT;
 	}
 	else if (object->type == OBJ_CYLINDER)
-		;
+	{
+		double dot = vec3_dot(vec3_rot(state->camera.rotation,
+			new_vec3(0., 0., 1.)), object->data.cylinder.dir);
+		if (dot > -(object->data.cylinder.height / 2.) && dot < object->data.cylinder.height / 2.)
+		{
+			t_vec3 bla = vec3_add(object->data.cylinder.center, vec3_mult(object->data.cylinder.dir, dot));
+			if (vec3_len_pow2(bla) < pow(object->data.cylinder.radius, 2.))
+				object->data.cylinder.cam_pos = CAM_IN;
+			else
+				object->data.cylinder.cam_pos = CAM_OUT;
+		}
+	}
 }
 
 void	render(t_state *state)

@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/11 16:23:10 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/14 15:32:03 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ void	init_dummy(t_state *state)
 	uint64_t	idx;
 	
 	state->camera = (t_camera){
-		.pos = {0., 0., 15.},
+		.pos = {0., 0., 5.},
 		.rotation = {1., 0., 0., 0.},
 		.pan_speed = 0.1,
 		.rot_speed = 0.05,
 		.fov = 70.0
 	};
 	state->light = (t_light){
-		.pos = new_vec3(0., 0., 3.),
-		.brightness = .8,
+		.pos = new_vec3(0., 0., 0.),
+		.brightness = 1.,
 	};
 	state->ambient.brightness = .1;
 	idx = get_idx_from_offset(&state->objects,
@@ -65,30 +65,37 @@ void	init_dummy(t_state *state)
 	objects[idx].data.sphere.radius = 1.;
 	objects[idx].data.sphere.cam_pos = 1;
 	objects[idx].color = new_color(255, 0, 0);
+	objects[idx].faces_camera = false;
 	objects[idx + 1].type = OBJ_SPHERE;
 	objects[idx + 1].data.sphere.center = new_world_coord(3., 0., -5.);
 	objects[idx + 1].data.sphere.radius = 1.;
 	objects[idx + 1].data.sphere.cam_pos = 1;
 	objects[idx + 1].color = new_color(0, 255, 0);
+	objects[idx + 1].faces_camera = false;
 	objects[idx + 2].type = OBJ_SPHERE;
 	objects[idx + 2].data.sphere.center = new_world_coord(0., 0., 10.);
 	objects[idx + 2].data.sphere.radius = 30.;
 	objects[idx + 2].data.sphere.cam_pos = 1;
 	objects[idx + 2].color = new_color(255, 165, 0);
+	objects[idx + 2].faces_camera = false;
 	objects[idx + 3].type = OBJ_PLANE;
 	objects[idx + 3].data.plane.dir = vec3_normalize(new_vec3(0., -1., 0.));
-	objects[idx + 3].data.plane.pos = new_world_coord(0., -1, 0.);
+	objects[idx + 3].data.plane.pos = new_world_coord(0., -3, 0.);
 	objects[idx + 3].color = new_color(0, 0, 255);
+	objects[idx + 3].faces_camera = false;
 	objects[idx + 4].type = OBJ_PLANE;
 	objects[idx + 4].data.plane.dir = vec3_normalize(new_vec3(0., 1., 0.));
-	objects[idx + 4].data.plane.pos = new_world_coord(0., 1., 0.);
+	objects[idx + 4].data.plane.pos = new_world_coord(0., 3., 0.);
 	objects[idx + 4].color = new_color(0, 0, 255);
+	objects[idx + 4].faces_camera = false;
 	objects[idx + 5].type = OBJ_CYLINDER;
+	objects[idx + 5].data.cylinder.cam_pos = 1.;
 	objects[idx + 5].data.cylinder.dir = vec3_normalize(new_vec3(0., 1., 0.));
-	objects[idx + 5].data.cylinder.center = new_world_coord(0., 3., -3.);
+	objects[idx + 5].data.cylinder.center = new_world_coord(0., 0., -10.);
 	objects[idx + 5].data.cylinder.radius = 1.;
 	objects[idx + 5].data.cylinder.height = 1.;
 	objects[idx + 5].color = new_color(165, 165, 255);
+	objects[idx + 5].faces_camera = false;
 }
 
 void	init_arena(t_state *state)
