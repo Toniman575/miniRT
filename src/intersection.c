@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:42:59 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/11 16:17:19 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/14 17:44:33 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,19 +98,26 @@ t_option	xchecker(t_object *object, t_ray *ray)
 		{
 			t[0] = (b_neg - sqrt_delta) / a_double;
 			t[1] = (b_neg + sqrt_delta) / a_double;
+			// t_world_coord a = vec3_add(ray->origin, vec3_mult(ray->dir, t[0]));
+			// t_world_coord b = vec3_add(ray->origin, vec3_mult(ray->dir, t[1]));
+			// t_world_coord c = vec3_add(ray->origin, vec3_mult(ray->dir, (t[0] + t[1]) / 2.));
+			// t_vec3 d = vec3_sub(c, a);
 			if (t[0] < EPSILON)
+			{
 				t[0] = t[1];
+				// d = vec3_sub(c, b);
+			}
 			if (t[0] > EPSILON)
 			{
-				option.type = OT_INTERSECTION;
-				option.value.intersection.object = object;
-				option.value.intersection.t = t[0];
-				option.value.intersection.hitpoint = get_ray_point(ray, t[0]);
-//				t_ax = vec3_dot(object->data.cylinder.dir, vec3_sub(vec_mult(ray->dir, t[0]), oc));
-//				if (t > EPSILON && t < object->data.cylinder.height && t )
-
+				double dot = vec3_dot(vec3_sub(object->data.cylinder.center, get_ray_point(ray, t[0])), object->data.cylinder.dir);
+				if (dot > -(object->data.cylinder.height / 2.) && dot < object->data.cylinder.height / 2.)
+				{
+					option.type = OT_INTERSECTION;
+					option.value.intersection.object = object;
+					option.value.intersection.t = t[0];
+					option.value.intersection.hitpoint = get_ray_point(ray, t[0]);
+				}
 			}
-
 		}
 	}
 	return (option);

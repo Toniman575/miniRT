@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 12:14:41 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/11 15:31:50 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/14 17:55:51 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,20 @@ typedef struct s_quaternion
 	double	z;
 }	t_quaternion;
 
-t_vec3	new_vec3(double x, double y, double z);
-t_vec3	vec3_add(t_vec3 p1, t_vec3 p2);
-t_vec3	vec3_sub(t_vec3 p1, t_vec3 p2);
-t_vec3	vec3_mult(t_vec3 p, double n);
-t_vec3	vec3_div(t_vec3 p, double n);
-double	vec3_dot(t_vec3 p1, t_vec3 p2);
-t_vec3	vec3_cross(t_vec3 p1, t_vec3 p2);
-double	vec3_len_pow2(t_vec3 p);
-double	vec3_len(t_vec3 p);
-double	vec3_len_prod_pow2(t_vec3 p1, t_vec3 p2);
-double	vec3_len_prod(t_vec3 p1, t_vec3 p2);
-double	vec3_angle(t_vec3 p1, t_vec3 p2);
-t_vec3	vec3_rot(t_quaternion quat, t_vec3 vec);
-t_vec3	vec3_normalize(t_vec3 p);
+t_vec3			new_vec3(double x, double y, double z);
+t_vec3			vec3_add(t_vec3 p1, t_vec3 p2);
+t_vec3			vec3_sub(t_vec3 p1, t_vec3 p2);
+t_vec3			vec3_mult(t_vec3 p, double n);
+t_vec3			vec3_div(t_vec3 p, double n);
+double			vec3_dot(t_vec3 p1, t_vec3 p2);
+t_vec3			vec3_cross(t_vec3 p1, t_vec3 p2);
+double			vec3_len_pow2(t_vec3 p);
+double			vec3_len(t_vec3 p);
+double			vec3_len_prod_pow2(t_vec3 p1, t_vec3 p2);
+double			vec3_len_prod(t_vec3 p1, t_vec3 p2);
+double			vec3_angle(t_vec3 p1, t_vec3 p2);
+t_vec3			vec3_rot(t_quaternion quat, t_vec3 vec);
+t_vec3			vec3_normalize(t_vec3 p);
+t_quaternion	quat_from_aa(double rad, t_vec3 axis);
 
 #endif

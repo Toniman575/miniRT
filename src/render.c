@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/14 15:27:04 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/14 17:34:34 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 	half_height = state->win.dim.height / 2.;
 	distance = half_width / (tan(fov_rad / 2.));
 	ray.origin = state->camera.pos;
-	ray.dir = vec3_rot(state->camera.rotation,
+	ray.dir = vec3_normalize(vec3_rot(state->camera.rotation,
 			vec3_normalize(new_vec3(coord.x - half_width,
-					half_height - coord.y, -distance)));
+					half_height - coord.y, -distance))));
 	return (ray);
 }
 
@@ -96,16 +96,15 @@ void	face_camera(t_state *state, t_option intersection)
 	}
 	else if (object->type == OBJ_CYLINDER)
 	{
-		double dot = vec3_dot(vec3_rot(state->camera.rotation,
-			new_vec3(0., 0., 1.)), object->data.cylinder.dir);
+		double dot = vec3_dot(vec3_sub(object->data.cylinder.center, state->camera.pos), object->data.cylinder.dir);
 		if (dot > -(object->data.cylinder.height / 2.) && dot < object->data.cylinder.height / 2.)
 		{
-			t_vec3 bla = vec3_add(object->data.cylinder.center, vec3_mult(object->data.cylinder.dir, dot));
-			if (vec3_len_pow2(bla) < pow(object->data.cylinder.radius, 2.))
+			t_vec3 cam_proj = vec3_add(object->data.cylinder.center, vec3_mult(object->data.cylinder.dir, dot));
+			if (vec3_len_pow2(vec3_sub(cam_proj, state->camera.pos)) < pow(object->data.cylinder.radius, 2.))
 				object->data.cylinder.cam_pos = CAM_IN;
 			else
 				object->data.cylinder.cam_pos = CAM_OUT;
-		}
+			}
 	}
 }
 

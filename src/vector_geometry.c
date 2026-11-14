@@ -6,13 +6,11 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/31 16:46:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/11 15:26:52 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/14 18:03:29 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
 #include "vector.h"
-#include <math.h>
 
 double	vec3_dot(t_vec3 p1, t_vec3 p2)
 {

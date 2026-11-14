@@ -50,7 +50,8 @@ SRCS	= \
 		render.c \
 		vector_basics.c \
 		vector_geometry.c \
-		vector_utils.c
+		vector_utils.c \
+		quaternion_utils.c
 
 DEBUG_SRCS 	=
 
