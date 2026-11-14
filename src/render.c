@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/14 17:34:34 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/14 18:51:45 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,9 @@ void	face_camera(t_state *state, t_option intersection)
 				object->data.cylinder.cam_pos = CAM_IN;
 			else
 				object->data.cylinder.cam_pos = CAM_OUT;
-			}
+		}
+		else
+			object->data.cylinder.cam_pos = CAM_OUT;
 	}
 }
 

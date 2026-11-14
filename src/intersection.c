@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:42:59 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/14 17:44:33 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/14 19:01:18 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,8 @@ t_option	xchecker(t_object *object, t_ray *ray)
 		{
 			t[0] = (b_neg - sqrt_delta) / a_double;
 			t[1] = (b_neg + sqrt_delta) / a_double;
-			// t_world_coord a = vec3_add(ray->origin, vec3_mult(ray->dir, t[0]));
-			// t_world_coord b = vec3_add(ray->origin, vec3_mult(ray->dir, t[1]));
-			// t_world_coord c = vec3_add(ray->origin, vec3_mult(ray->dir, (t[0] + t[1]) / 2.));
-			// t_vec3 d = vec3_sub(c, a);
 			if (t[0] < EPSILON)
-			{
 				t[0] = t[1];
-				// d = vec3_sub(c, b);
-			}
 			if (t[0] > EPSILON)
 			{
 				double dot = vec3_dot(vec3_sub(object->data.cylinder.center, get_ray_point(ray, t[0])), object->data.cylinder.dir);
@@ -117,8 +110,40 @@ t_option	xchecker(t_object *object, t_ray *ray)
 					option.value.intersection.t = t[0];
 					option.value.intersection.hitpoint = get_ray_point(ray, t[0]);
 				}
+				else
+				{
+					double	d;
+					double	t[2];
+					// d == 0 means they are parallel and don't intersect
+					d = vec3_dot(ray->dir, object->data.cylinder.dir);
+					if (fabs(d) > EPSILON)
+					{
+						// t <= 0 means the intersection is behind our ray origin, the '/d' is normalization
+						t_vec3	cctcc = vec3_add(object->data.cylinder.center, vec3_mult(object->data.cylinder.dir, object->data.cylinder.height / 2));
+						t[0] = vec3_dot(vec3_sub(vec3_sub(object->data.cylinder.center, vec3_mult(object->data.cylinder.dir, object->data.cylinder.height / 2)), ray->origin),
+							object->data.plane.dir);
+						t[1] = vec3_dot(vec3_sub(vec3_add(object->data.cylinder.center, vec3_mult(object->data.cylinder.dir, object->data.cylinder.height / 2)), ray->origin),
+							object->data.plane.dir);
+						if (t[0] > t[1] || t[0] < EPSILON)
+							t[0] = t[1];
+						if (t[0] > EPSILON)
+						{
+							t_world_coord	hitpoint;
+							hitpoint = get_ray_point(ray, t[0]);
+							if (vec3_len_pow2(vec3_sub(hitpoint, cctcc)) < pow(object->data.cylinder.radius, 2))
+							{
+								option.type = OT_INTERSECTION;
+								option.value.intersection.object = object;
+								option.value.intersection.t = t[0];
+								option.value.intersection.hitpoint = get_ray_point(ray, t[0]);
+							}
+
+						}
+					}
+				}
 			}
 		}
+		
 	}
 	return (option);
 }
