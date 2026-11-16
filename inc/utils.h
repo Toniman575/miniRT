@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/14 14:49:42 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/16 14:40:03 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@
 # define CAM_IN		-1
 # define CAM_OUT	1
 
-# define CYL_FACES	3
+# define IN		true
+# define OUT	false
+
+# define CLIP_MAX 3
+# define SHAPE_MAX 3
 
 typedef uint8_t		t_color_component;
 typedef uint32_t	t_xcolor;
@@ -113,56 +117,6 @@ typedef struct s_light
 	double			brightness;
 }	t_light;
 
-typedef struct s_sphere
-{
-	t_world_coord	center;
-	double			radius;
-	double			cam_pos;
-}	t_sphere;
-
-typedef struct s_plane
-{
-	t_world_coord		pos;
-	t_vec3				dir;
-}	t_plane;
-
-typedef struct s_cylinder
-{
-	t_world_coord	center;
-	t_vec3			dir;
-	double			radius;
-	double			height;
-	double			cam_pos;
-}	t_cylinder;
-
-typedef union u_object_data
-{
-	t_ambient	ambient;
-	t_light		light;
-	t_sphere	sphere;
-	t_plane		plane;
-	t_cylinder	cylinder;
-}	t_object_data;
-
-typedef enum e_object_type
-{
-	OBJ_NONE,
-	OBJ_AMBIENT,
-	OBJ_LIGHT,
-	OBJ_SPHERE,
-	OBJ_PLANE,
-	OBJ_CYLINDER,
-	OBJ_COUNT
-}	t_object_type;
-
-typedef struct s_object
-{
-	t_object_type	type;
-	t_object_data	data;
-	t_color			color;
-	bool			faces_camera;
-}	t_object;
-
 typedef struct s_state
 {
 	t_win_data	win;
@@ -193,15 +147,6 @@ typedef struct s_ray
 	t_vec3			dir;
 }	t_ray;
 
-/// t is the length of the ray from its origin to hitpoint where
-/// the intersection happens.
-typedef struct s_intersection
-{
-	double			t;
-	t_world_coord	hitpoint;
-	t_object		*object;
-}	t_intersection;
-
 typedef enum e_rtype
 {
 	RT_ERROR,
@@ -224,11 +169,99 @@ typedef enum e_otype
 {
 	OT_NONE,
 	OT_INTERSECTION,
+	OT_DOUBLE,
+	OT_COUNT,
 }	t_otype;
+
+typedef struct s_sphere
+{
+	t_world_coord	center;
+	double			radius;
+}	t_sphere;
+
+typedef struct s_plane
+{
+	t_world_coord		pos;
+	t_vec3				dir;
+}	t_plane;
+
+typedef struct s_tube
+{
+	t_world_coord	center;
+	t_vec3			dir;
+	double			radius;
+	//height will contribute to the clipping plane's pos = center + height/2 * ±dir
+}	t_tube;
+
+typedef union u_shape_data
+{
+	t_sphere	sphere;
+	t_plane		plane;
+	t_tube		tube;
+}	t_shape_data;
+
+typedef enum e_shape_type
+{
+	SHAPE_NONE,
+	SHAPE_SPHERE,
+	SHAPE_PLANE,
+	SHAPE_TUBE,
+	SHAPE_COUNT
+}	t_shape_type;
+
+typedef enum e_object_type
+{
+	OBJ_NONE,
+	OBJ_SPHERE,
+	OBJ_PLANE,
+	OBJ_CYLINDER,
+	OBJ_COUNT
+}	t_object_type;
+
+typedef enum e_clip_type
+{
+	CT_NONE,
+	CT_POS, 		// draw the side the normal points towards
+	CT_NEG, 		// draw the side the normal doesnt point towards
+	CT_COUNT
+}	t_clip_type;
+
+typedef struct s_clip
+{
+	t_clip_type	type; //if non zero used to control how the shape is used as a clip
+	uint64_t	idx;  //idx of the shape we will use to clip with
+}	t_clip;
+
+typedef struct s_shape
+{
+	t_shape_type	type;
+	t_shape_data	data;
+	t_clip			clip[CLIP_MAX];
+}	t_shape;
+
+typedef struct s_object
+{
+	t_object_type	type;
+	t_shape			shape[SHAPE_MAX];
+	t_color			color;
+	//t_transform	trans; //if we decide to add transformations to the individual objects
+}	t_object;
+
+/// t is the length of the ray from its origin to hitpoint where
+/// the intersection happens.
+typedef struct s_intersection
+{
+	double			t;
+	t_world_coord	hitpoint;
+	t_shape			*shape;
+	t_object		*object;
+}	t_intersection;
 
 typedef union u_ovalue
 {
 	t_intersection	intersection;
+	double			t;
+	double			ts[2];
 }	t_ovalue;
 
 typedef struct s_option
@@ -236,6 +269,21 @@ typedef struct s_option
 	t_otype		type;
 	t_ovalue	value;
 }	t_option;
+
+typedef struct s_lin_eq
+{
+	double	a;
+	double	b;
+}	t_lin_eq;
+
+typedef struct s_quad_eq
+{
+	double	a;
+	double	b;
+	double	c;
+	double	delta;
+
+}	t_quad_eq;
 
 t_world_coord	new_world_coord(double x, double y, double z);
 t_option		xchecker(t_object *object, t_ray *ray);

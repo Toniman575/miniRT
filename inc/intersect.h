@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/16 11:21:15 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/16 13:38:46 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,20 @@ typedef struct s_intersection
 	t_shape			*shape;
 	t_object		*object;
 }	t_intersection;
+
+typedef struct s_lin_eq
+{
+	double	a;
+	double	b;
+}	t_lin_eq;
+
+typedef struct s_quad_eq
+{
+	double	a;
+	double	b;
+	double	c;
+	double	delta;
+
+}	t_quad_eq;
 
 #endif

@@ -42,7 +42,7 @@ SRCS	= \
 		from.c \
 		hooks.c \
 		init.c \
-		intersection.c \
+		intersect.c \
 		main.c \
 		main_loop.c \
 		object_utils.c \
