@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/14 17:34:34 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/16 15:07:43 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,35 +77,32 @@ void	face_camera(t_state *state, t_option intersection)
 	if (intersection.type == OT_NONE)
 		return ;
 	object = intersection.value.intersection.object;
-	if (object->faces_camera)
-		return ;
-	object->faces_camera = true;
 	if (object->type == OBJ_PLANE)
 	{
-		if (vec3_dot(object->data.plane.dir, vec3_sub(state->camera.pos, object->data.plane.pos)) < -EPSILON)
-			object->data.plane.dir = vec3_mult(object->data.plane.dir, -1);
+		if (vec3_dot(object->shape[0].data.plane.dir, vec3_sub(state->camera.pos, object->shape[0].data.plane.pos)) < -EPSILON)
+			object->shape[0].data.plane.dir = vec3_mult(object->shape[0].data.plane.dir, -1);
 	}
-	else if (object->type == OBJ_SPHERE)
-	{
-		if (vec3_len_pow2(
-				vec3_sub(state->camera.pos, object->data.sphere.center))
-			< pow(object->data.sphere.radius, 2.))
-			object->data.sphere.cam_pos = CAM_IN;
-		else
-			object->data.sphere.cam_pos = CAM_OUT;
-	}
-	else if (object->type == OBJ_CYLINDER)
-	{
-		double dot = vec3_dot(vec3_sub(object->data.cylinder.center, state->camera.pos), object->data.cylinder.dir);
-		if (dot > -(object->data.cylinder.height / 2.) && dot < object->data.cylinder.height / 2.)
-		{
-			t_vec3 cam_proj = vec3_add(object->data.cylinder.center, vec3_mult(object->data.cylinder.dir, dot));
-			if (vec3_len_pow2(vec3_sub(cam_proj, state->camera.pos)) < pow(object->data.cylinder.radius, 2.))
-				object->data.cylinder.cam_pos = CAM_IN;
-			else
-				object->data.cylinder.cam_pos = CAM_OUT;
-			}
-	}
+	// else if (object->type == OBJ_SPHERE)
+	// {
+	// 	if (vec3_len_pow2(
+	// 			vec3_sub(state->camera.pos, object->shape[0].data.sphere.center))
+	// 		< pow(object->shape[0].data.sphere.radius, 2.))
+	// 		object->shape[0].data.sphere.cam_pos = CAM_IN;
+	// 	else
+	// 		object->shape[0].data.sphere.cam_pos = CAM_OUT;
+	// }
+	// else if (object->type == OBJ_CYLINDER)
+	// {
+	// 	double dot = vec3_dot(vec3_sub(object->data.cylinder.center, state->camera.pos), object->data.cylinder.dir);
+	// 	if (dot > -(object->data.cylinder.height / 2.) && dot < object->data.cylinder.height / 2.)
+	// 	{
+	// 		t_vec3 cam_proj = vec3_add(object->data.cylinder.center, vec3_mult(object->data.cylinder.dir, dot));
+	// 		if (vec3_len_pow2(vec3_sub(cam_proj, state->camera.pos)) < pow(object->data.cylinder.radius, 2.))
+	// 			object->data.cylinder.cam_pos = CAM_IN;
+	// 		else
+	// 			object->data.cylinder.cam_pos = CAM_OUT;
+	// 		}
+	// }
 }
 
 void	render(t_state *state)
@@ -133,6 +130,6 @@ void	render(t_state *state)
 	mlx_put_image_to_window(state->mlx_ptr, state->win.ptr,
 		state->img.ptr, 0, 0);
 	i = get_idx_from_offset(&state->objects, state->objects.offset);
-	while (--i > 0)
-		objects[i].faces_camera = false;
+	// while (--i > 0)
+	// 	objects[i].faces_camera = false;
 }
