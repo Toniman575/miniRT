@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:54:43 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/14 14:44:04 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/16 15:02:30 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ t_vec3	get_normal(t_intersection intersection)
 	if (intersection.object->type == OBJ_SPHERE)
 		return (vec3_mult(vec3_normalize(
 				vec3_sub(intersection.hitpoint,
-					intersection.object->data.sphere.center)),
-				intersection.object->data.sphere.cam_pos));
+					intersection.object->shape[0].data.sphere.center)),
+				1.));
 	else if (intersection.object->type == OBJ_PLANE)
-		return (intersection.object->data.plane.dir);
+		return (intersection.object->shape[0].data.plane.dir);
 	else if (intersection.object->type == OBJ_CYLINDER)
 	{
-		t_vec3	v = vec3_sub(intersection.hitpoint, intersection.object->data.cylinder.center);
-		t_vec3	axial = vec3_mult(intersection.object->data.cylinder.dir, vec3_dot(v, intersection.object->data.cylinder.dir));
+		t_vec3	v = vec3_sub(intersection.hitpoint, intersection.object->shape[0].data.tube.center);
+		t_vec3	axial = vec3_mult(intersection.object->shape[0].data.tube.dir, vec3_dot(v, intersection.object->shape[0].data.tube.dir));
 		t_vec3	radial = vec3_sub(v, axial);
 		return (vec3_mult(vec3_normalize(radial),
-				intersection.object->data.cylinder.cam_pos));
+				1.));
 	}
 	else
 		return (new_vec3(0., 0., 0.));
