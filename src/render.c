@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/14 17:34:34 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/16 15:54:58 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,17 @@ void	face_camera(t_state *state, t_option intersection)
 		double dot = vec3_dot(vec3_sub(object->data.cylinder.center, state->camera.pos), object->data.cylinder.dir);
 		if (dot > -(object->data.cylinder.height / 2.) && dot < object->data.cylinder.height / 2.)
 		{
-			t_vec3 cam_proj = vec3_add(object->data.cylinder.center, vec3_mult(object->data.cylinder.dir, dot));
+			t_vec3 cam_proj = vec3_sub(object->data.cylinder.center, vec3_mult(object->data.cylinder.dir, dot));
 			if (vec3_len_pow2(vec3_sub(cam_proj, state->camera.pos)) < pow(object->data.cylinder.radius, 2.))
 				object->data.cylinder.cam_pos = CAM_IN;
 			else
 				object->data.cylinder.cam_pos = CAM_OUT;
 			}
+	}
+	else if (object->type == OBJ_CYCAP)
+	{
+		if (vec3_dot(object->data.cycap.dir, vec3_sub(state->camera.pos, object->data.cycap.center)) < -EPSILON)
+			object->data.cycap.dir = vec3_mult(object->data.cycap.dir, -1);
 	}
 }
 

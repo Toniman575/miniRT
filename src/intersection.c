@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:42:59 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/14 17:44:33 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/16 15:48:14 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,31 @@ t_option	xchecker(t_object *object, t_ray *ray)
 					option.value.intersection.object = object;
 					option.value.intersection.t = t[0];
 					option.value.intersection.hitpoint = get_ray_point(ray, t[0]);
+				}
+			}
+		}
+	}
+	else if (object->type == OBJ_CYCAP)
+	{
+		double	d;
+		double	t;
+		// d == 0 means they are parallel and don't intersect
+		d = vec3_dot(ray->dir, object->data.cycap.dir);
+		if (fabs(d) > EPSILON)
+		{
+			// t <= 0 means there intersection is behind our ray origin, the '/d' is normalization
+			t = vec3_dot(vec3_sub(object->data.cycap.center, ray->origin),
+				object->data.cycap.dir) / d;
+			if (t > EPSILON)
+			{
+				t_vec3 hitpoint = get_ray_point(ray, t);
+				double distance = vec3_len(vec3_sub(hitpoint, object->data.cycap.center));
+				if (distance < object->data.cycap.radius)
+				{
+					option.type = OT_INTERSECTION;
+					option.value.intersection.object = object;
+					option.value.intersection.t = t;
+					option.value.intersection.hitpoint = hitpoint;
 				}
 			}
 		}

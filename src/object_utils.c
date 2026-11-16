@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:54:43 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/14 14:44:04 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/16 15:35:03 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ t_vec3	get_normal(t_intersection intersection)
 		return (vec3_mult(vec3_normalize(radial),
 				intersection.object->data.cylinder.cam_pos));
 	}
+	else if (intersection.object->type == OBJ_CYCAP)
+		return (intersection.object->data.cycap.dir);
 	else
 		return (new_vec3(0., 0., 0.));
 }
