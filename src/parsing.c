@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sancuta <sancuta@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/01 21:38:43 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/04 20:52:01 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/16 15:08:12 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ void	parse_scene(t_state *state, char *path)
 				_Alignof(t_object));
 			obj = (t_object *)&state->objects.buf[get_idx_from_offset(
 				&state->objects, offset)];
-			obj->type = OBJ_AMBIENT;
+			//obj->type = OBJ_AMBIENT;
 			while (ft_isspace(line[i])) 
 				++i;
-			obj->data.ambient.brightness = ft_atod(&line[i]);
-			if (!obj->data.ambient.brightness && errno == EINVAL)
+			//obj->data.ambient.brightness = ft_atod(&line[i]);
+			//if (!obj->data.ambient.brightness && errno == EINVAL)
 				/*handle_exit()*/;
 			len = ft_indchr(&line[i], ' ');
 			if (len == -1)
