@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/15 15:06:14 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/16 14:44:23 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,21 @@ void	init_dummy(t_state *state)
 		arena_alloc(&state->objects, 6 * sizeof(t_object), _Alignof(t_object)));
 	objects = (t_object *)state->objects.buf;
 	objects[idx].type = OBJ_SPHERE;
-	objects[idx].data.sphere.center = new_world_coord(-3., 0., -5.);
-	objects[idx].data.sphere.radius = 1.;
-	objects[idx].data.sphere.cam_pos = 1;
+	objects[idx].shape[0].sphere.center = new_world_coord(-3., 0., -5.);
+	objects[idx].shape[0].sphere.radius = 1.;
+	objects[idx].shape[0].sphere.cam_pos = 1;
 	objects[idx].color = new_color(255, 0, 0);
 	objects[idx].faces_camera = false;
 	objects[idx + 1].type = OBJ_SPHERE;
-	objects[idx + 1].data.sphere.center = new_world_coord(3., 0., -5.);
-	objects[idx + 1].data.sphere.radius = 1.;
-	objects[idx + 1].data.sphere.cam_pos = 1;
+	objects[idx + 1].shape[0].sphere.center = new_world_coord(3., 0., -5.);
+	objects[idx + 1].shape[0].sphere.radius = 1.;
+	objects[idx + 1].shape[0].sphere.cam_pos = 1;
 	objects[idx + 1].color = new_color(0, 255, 0);
 	objects[idx + 1].faces_camera = false;
 	objects[idx + 2].type = OBJ_SPHERE;
-	objects[idx + 2].data.sphere.center = new_world_coord(0., 0., 10.);
-	objects[idx + 2].data.sphere.radius = 100.;
-	objects[idx + 2].data.sphere.cam_pos = 1;
+	objects[idx + 2].shape[0].sphere.center = new_world_coord(0., 0., 10.);
+	objects[idx + 2].shape[0].sphere.radius = 100.;
+	objects[idx + 2].shape[0].sphere.cam_pos = 1;
 	objects[idx + 2].color = new_color(255, 165, 0);
 	objects[idx + 2].faces_camera = false;
 	// objects[idx + 3].type = OBJ_PLANE;
