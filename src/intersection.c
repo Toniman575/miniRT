@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:42:59 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/14 17:44:33 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/15 15:04:16 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ t_world_coord	get_ray_point(t_ray *ray, double t) {
 t_option	xchecker(t_object *object, t_ray *ray)
 {
 	t_option	option;
-	t_vec3		oc;
 
 	option.type = OT_NONE;
 	if (object->type == OBJ_SPHERE)
 	{
+		t_vec3	oc;
 		double	delta;
 		double	sqrt_delta;
 		double	b;
