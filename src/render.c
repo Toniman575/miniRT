@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/16 15:07:43 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/16 15:19:02 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	put_pixel_to_buffer(t_state *state, t_screen_coord sc, uint32_t color)
 	((unsigned int *)state->img.buf)[idx] = color;
 }
 
+/*
 void	face_camera(t_state *state, t_option intersection)
 {
 	t_object	*object;
@@ -104,6 +105,7 @@ void	face_camera(t_state *state, t_option intersection)
 	// 		}
 	// }
 }
+*/
 
 void	render(t_state *state)
 {
@@ -121,7 +123,7 @@ void	render(t_state *state)
 		while (++current.x < state->win.dim.width)
 		{
 			ray = cast_ray(state, viewport_ray(state, current));
-			face_camera(state, ray);
+//			face_camera(state, ray);
 			color = get_color_from_ray(state, ray);
 			put_pixel_to_buffer(state, current,
 				mlx_get_color_value(state->mlx_ptr, color));
