@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/16 14:40:03 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/16 17:42:25 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@
 
 # define CLIP_MAX 3
 # define SHAPE_MAX 3
+# define ROOTS_MAX 2
 
 typedef uint8_t		t_color_component;
 typedef uint32_t	t_xcolor;
@@ -169,7 +170,8 @@ typedef enum e_otype
 {
 	OT_NONE,
 	OT_INTERSECTION,
-	OT_DOUBLE,
+	OT_LIN_ROOT,
+	OT_QUAD_ROOT,
 	OT_COUNT,
 }	t_otype;
 
@@ -278,11 +280,10 @@ typedef struct s_lin_eq
 
 typedef struct s_quad_eq
 {
-	double	a;
-	double	b;
+	//a = vec3_len_pow2(ray.dir);
+	//since ray.dir is a unit vector, we can just use 1
+	double	b_half;
 	double	c;
-	double	delta;
-
 }	t_quad_eq;
 
 t_world_coord	new_world_coord(double x, double y, double z);
@@ -301,7 +302,7 @@ t_option		cast_ray(t_state *state, t_ray ray);
 t_xcolor		get_color_from_ray(t_state *state, t_option intersection);
 t_xcolor		x_color_from_color(t_color color);
 t_vec3			get_normal(t_intersection intersection);
-//t_vec3			get_facing_normal(t_state *state, t_intersection intersection);
+t_vec3			get_facing_normal(t_state *state, t_intersection intersection);
 void			cleanup(t_state *state);
 void			parse_scene(t_state *state, char *path);
 
