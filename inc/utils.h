@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/16 17:42:25 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/17 04:40:12 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 # define OUT	false
 
 # define CLIP_MAX 3
-# define SHAPE_MAX 3
+# define SHAPES_MAX 3
 # define ROOTS_MAX 2
 
 typedef uint8_t		t_color_component;
@@ -175,11 +175,14 @@ typedef enum e_otype
 	OT_COUNT,
 }	t_otype;
 
-typedef struct s_sphere
+/*
+typedef struct s_disc
 {
 	t_world_coord	center;
+	t_vec3			dir;
 	double			radius;
-}	t_sphere;
+}	t_disc;
+*/
 
 typedef struct s_plane
 {
@@ -187,26 +190,33 @@ typedef struct s_plane
 	t_vec3				dir;
 }	t_plane;
 
+typedef struct s_sphere
+{
+	t_world_coord	center;
+	double			radius;
+}	t_sphere;
+
 typedef struct s_tube
 {
 	t_world_coord	center;
 	t_vec3			dir;
 	double			radius;
-	//height will contribute to the clipping plane's pos = center + height/2 * ±dir
+	//height will contribute to the clipping plane's pos = center + dir * ±height/2
 }	t_tube;
 
 typedef union u_shape_data
 {
-	t_sphere	sphere;
 	t_plane		plane;
+	t_sphere	sphere;
 	t_tube		tube;
 }	t_shape_data;
 
 typedef enum e_shape_type
 {
 	SHAPE_NONE,
-	SHAPE_SPHERE,
+	SHAPE_CIRCLE,
 	SHAPE_PLANE,
+	SHAPE_SPHERE,
 	SHAPE_TUBE,
 	SHAPE_COUNT
 }	t_shape_type;
@@ -228,23 +238,26 @@ typedef enum e_clip_type
 	CT_COUNT
 }	t_clip_type;
 
+typedef struct s_shape	t_shape;
 typedef struct s_clip
 {
-	t_clip_type	type; //if non zero used to control how the shape is used as a clip
-	uint64_t	idx;  //idx of the shape we will use to clip with
+	t_clip_type	type;		//if non zero used to control how the shape is used as a clip
+	uint64_t	obj_idx;	//idx of the object we will use to clip with
+	uint64_t	sh_idx;		//idx of the shape we will use to clip with
+	t_shape		*shape;		//TODO: fill this at the end of parsing all objects, consider how that changes functions & data structures we are using, how we iterate through the objects to render more precisely.
 }	t_clip;
 
-typedef struct s_shape
+struct s_shape
 {
 	t_shape_type	type;
 	t_shape_data	data;
 	t_clip			clip[CLIP_MAX];
-}	t_shape;
+};
 
 typedef struct s_object
 {
 	t_object_type	type;
-	t_shape			shape[SHAPE_MAX];
+	t_shape			shape[SHAPES_MAX];
 	t_color			color;
 	//t_transform	trans; //if we decide to add transformations to the individual objects
 }	t_object;
@@ -280,14 +293,13 @@ typedef struct s_lin_eq
 
 typedef struct s_quad_eq
 {
-	//a = vec3_len_pow2(ray.dir);
-	//since ray.dir is a unit vector, we can just use 1
+	double	a;
 	double	b_half;
 	double	c;
 }	t_quad_eq;
 
 t_world_coord	new_world_coord(double x, double y, double z);
-t_option		xchecker(t_object *object, t_ray *ray);
+t_option		intersect_object(t_object *object, t_ray *ray);
 t_result		reflect(t_vec3 vec);
 void			init(t_state *state, char *file);
 int				handle_key_press(int keycode, void *data);
@@ -299,11 +311,12 @@ void			handle_exit(t_state *state, t_exit_data data);
 t_color			new_color(t_color_component r, t_color_component g,
 					t_color_component b);
 t_option		cast_ray(t_state *state, t_ray ray);
-t_xcolor		get_color_from_ray(t_state *state, t_option intersection);
+t_xcolor		get_color_from_ray(t_state *state, t_option x, t_ray ray);
 t_xcolor		x_color_from_color(t_color color);
-t_vec3			get_normal(t_intersection intersection);
-t_vec3			get_facing_normal(t_state *state, t_intersection intersection);
+t_vec3			get_normal(t_intersection x);
+t_vec3			get_normal_facing_ray(t_intersection x, t_ray ray);
 void			cleanup(t_state *state);
 void			parse_scene(t_state *state, char *path);
+bool			is_clip(t_shape *shape, t_world_coord hitpoint);
 
 #endif
