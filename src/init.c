@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/16 17:41:51 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/17 04:36:25 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,35 +44,34 @@ void	init_dummy(t_state *state)
 {
 	t_object	*objects;
 	uint64_t	idx;
-	
+
 	state->camera = (t_camera){
 		.pos = {0., 0., 10.},
 		.rotation = {1., 0., 0., 0.},
 		.pan_speed = 0.1,
 		.rot_speed = 0.05,
-		.fov = 70.0
+		.fov = 100.0
 	};
 	state->light = (t_light){
-		.pos = new_vec3(0., 0., 0.),
+		.pos = new_vec3(0., 0., 3.),
 		.brightness = .8,
 	};
 	state->ambient.brightness = .1;
 	idx = get_idx_from_offset(&state->objects,
 		arena_alloc(&state->objects, 6 * sizeof(t_object), _Alignof(t_object)));
 	objects = (t_object *)state->objects.buf;
-	// objects[idx].type = OBJ_SPHERE;
-	// objects[idx].shape[0].sphere.center = new_world_coord(-3., 0., -5.);
-	// objects[idx].shape[0].sphere.radius = 1.;
-	// objects[idx].shape[0].sphere.cam_pos = 1;
-	// objects[idx].color = new_color(255, 0, 0);
-	// objects[idx].faces_camera = false;
-	// objects[idx + 1].type = OBJ_SPHERE;
-	// objects[idx + 1].shape[0].sphere.center = new_world_coord(3., 0., -5.);
-	// objects[idx + 1].shape[0].sphere.radius = 1.;
-	// objects[idx + 1].shape[0].sphere.cam_pos = 1;
-	// objects[idx + 1].color = new_color(0, 255, 0);
-	// objects[idx + 1].faces_camera = false;
+	objects[idx].type = OBJ_SPHERE;
+	objects[idx].shape[0].type = SHAPE_SPHERE;
+	objects[idx].shape[0].data.sphere.center = new_world_coord(-3., 0., 5.);
+	objects[idx].shape[0].data.sphere.radius = 1.;
+	objects[idx].color = new_color(255, 0, 0);
+	objects[idx + 1].type = OBJ_SPHERE;
+	objects[idx + 1].shape[0].type = SHAPE_SPHERE;
+	objects[idx + 1].shape[0].data.sphere.center = new_world_coord(3., 0., 5.);
+	objects[idx + 1].shape[0].data.sphere.radius = 1.;
+	objects[idx + 1].color = new_color(0, 255, 0);
 	objects[idx + 2].type = OBJ_SPHERE;
+	objects[idx + 2].shape[0].type = SHAPE_SPHERE;
 	objects[idx + 2].shape[0].data.sphere.center = new_world_coord(0., 0., 0.);
 	objects[idx + 2].shape[0].data.sphere.radius = 100.;
 	objects[idx + 2].color = new_color(255, 165, 0);
@@ -86,14 +85,46 @@ void	init_dummy(t_state *state)
 	objects[idx + 4].shape[0].data.plane.dir = vec3_normalize(new_vec3(0., -1., 0.));
 	objects[idx + 4].shape[0].data.plane.pos = new_world_coord(0., 3., 0.);
 	objects[idx + 4].color = new_color(0, 0, 255);
-	// objects[idx + 5].type = OBJ_CYLINDER;
-	// objects[idx + 5].data.cylinder.cam_pos = 1.;
-	// objects[idx + 5].data.cylinder.dir = vec3_normalize(new_vec3(1., 0., 0.));
-	// objects[idx + 5].data.cylinder.center = new_world_coord(0., 0, 0.);
-	// objects[idx + 5].data.cylinder.radius = 2.;
-	// objects[idx + 5].data.cylinder.height = 1.;
-	// objects[idx + 5].color = new_color(165, 165, 255);
-	// objects[idx + 5].faces_camera = false;
+	double	height;
+	height = 3.;
+	objects[idx + 5].type = OBJ_CYLINDER;
+	objects[idx + 5].shape[0].type = SHAPE_TUBE;
+	objects[idx + 5].shape[0].data.tube.center = new_world_coord(0., 0., -6.);
+	objects[idx + 5].shape[0].data.tube.dir = vec3_normalize(new_vec3(1., 1., 1.));
+	objects[idx + 5].shape[0].data.tube.radius = 2.;
+	objects[idx + 5].shape[0].clip[0].type = CT_NEG;
+	objects[idx + 5].shape[0].clip[0].shape = &objects[idx + 5].shape[1];
+	objects[idx + 5].shape[0].clip[0].shape->type = SHAPE_PLANE;
+	objects[idx + 5].shape[0].clip[0].shape->data.plane.pos
+		= vec3_add(objects[idx + 5].shape[0].data.tube.center,
+		vec3_mult(objects[idx + 5].shape[0].data.tube.dir,
+		height / 2.));
+	objects[idx + 5].shape[0].clip[0].shape->data.plane.dir
+		= objects[idx + 5].shape[0].data.tube.dir;
+	objects[idx + 5].shape[0].clip[1].type = CT_POS;
+	objects[idx + 5].shape[0].clip[1].shape = &objects[idx + 5].shape[2];
+	objects[idx + 5].shape[0].clip[1].shape->type = SHAPE_PLANE;
+	objects[idx + 5].shape[0].clip[1].shape->data.plane.pos
+		= vec3_add(objects[idx + 5].shape[0].data.tube.center,
+		vec3_mult(objects[idx + 5].shape[0].data.tube.dir,
+		-height / 2.));
+	objects[idx + 5].shape[0].clip[1].shape->data.plane.dir
+		= objects[idx + 5].shape[0].data.tube.dir;
+	objects[idx + 5].shape[1].type = SHAPE_PLANE;
+	objects[idx + 5].shape[1].data.plane.pos
+		= objects[idx + 5].shape[0].clip[0].shape->data.plane.pos;
+	objects[idx + 5].shape[1].data.plane.dir
+		= objects[idx + 5].shape[0].data.tube.dir;
+	objects[idx + 5].shape[1].clip[0].type = CT_NEG;
+	objects[idx + 5].shape[1].clip[0].shape = &objects[idx + 5].shape[0];
+	objects[idx + 5].shape[2].type = SHAPE_PLANE;
+	objects[idx + 5].shape[2].data.plane.pos
+		= objects[idx + 5].shape[0].clip[1].shape->data.plane.pos;
+	objects[idx + 5].shape[2].data.plane.dir
+		= objects[idx + 5].shape[0].data.tube.dir;
+	objects[idx + 5].shape[2].clip[0].type = CT_NEG;
+	objects[idx + 5].shape[2].clip[0].shape = &objects[idx + 5].shape[0];
+	objects[idx + 5].color = new_color(165, 165, 255);
 }
 
 void	init_arena(t_state *state)
