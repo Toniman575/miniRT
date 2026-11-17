@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/16 15:19:02 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/17 04:16:23 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ t_option	cast_ray(t_state *state, t_ray ray)
 	i = 0;
 	while (++i < max_objects)
 	{
-		c_is = xchecker(&objects[i], &ray);
-		if (is.type == OT_NONE && c_is.type != OT_NONE)
+		c_is = intersect_object(&objects[i], &ray);
+		if (is.type != OT_INTERSECTION && c_is.type == OT_INTERSECTION)
 			is = c_is;
-		else if (c_is.type != OT_NONE && is.type != OT_NONE
+		else if (c_is.type == OT_INTERSECTION && is.type == OT_INTERSECTION
 			&& c_is.value.intersection.t < is.value.intersection.t)
 			is = c_is;
 	}
@@ -70,50 +70,13 @@ void	put_pixel_to_buffer(t_state *state, t_screen_coord sc, uint32_t color)
 	((unsigned int *)state->img.buf)[idx] = color;
 }
 
-/*
-void	face_camera(t_state *state, t_option intersection)
-{
-	t_object	*object;
-
-	if (intersection.type == OT_NONE)
-		return ;
-	object = intersection.value.intersection.object;
-	if (object->type == OBJ_PLANE)
-	{
-		if (vec3_dot(object->shape[0].data.plane.dir, vec3_sub(state->camera.pos, object->shape[0].data.plane.pos)) < -EPSILON)
-			object->shape[0].data.plane.dir = vec3_mult(object->shape[0].data.plane.dir, -1);
-	}
-	// else if (object->type == OBJ_SPHERE)
-	// {
-	// 	if (vec3_len_pow2(
-	// 			vec3_sub(state->camera.pos, object->shape[0].data.sphere.center))
-	// 		< pow(object->shape[0].data.sphere.radius, 2.))
-	// 		object->shape[0].data.sphere.cam_pos = CAM_IN;
-	// 	else
-	// 		object->shape[0].data.sphere.cam_pos = CAM_OUT;
-	// }
-	// else if (object->type == OBJ_CYLINDER)
-	// {
-	// 	double dot = vec3_dot(vec3_sub(object->data.cylinder.center, state->camera.pos), object->data.cylinder.dir);
-	// 	if (dot > -(object->data.cylinder.height / 2.) && dot < object->data.cylinder.height / 2.)
-	// 	{
-	// 		t_vec3 cam_proj = vec3_add(object->data.cylinder.center, vec3_mult(object->data.cylinder.dir, dot));
-	// 		if (vec3_len_pow2(vec3_sub(cam_proj, state->camera.pos)) < pow(object->data.cylinder.radius, 2.))
-	// 			object->data.cylinder.cam_pos = CAM_IN;
-	// 		else
-	// 			object->data.cylinder.cam_pos = CAM_OUT;
-	// 		}
-	// }
-}
-*/
-
 void	render(t_state *state)
 {
 	t_screen_coord	current;
 	t_xcolor		color;
-	t_option		ray;
-	size_t			i;
+	t_option		option;
 	t_object		*objects;
+	t_ray			ray;
 
 	objects = (t_object *)(state->objects.buf);
 	current.y = -1;
@@ -122,16 +85,13 @@ void	render(t_state *state)
 		current.x = -1;
 		while (++current.x < state->win.dim.width)
 		{
-			ray = cast_ray(state, viewport_ray(state, current));
-//			face_camera(state, ray);
-			color = get_color_from_ray(state, ray);
+			ray = viewport_ray(state, current);
+			option = cast_ray(state, ray);
+			color = get_color_from_ray(state, option, ray);
 			put_pixel_to_buffer(state, current,
 				mlx_get_color_value(state->mlx_ptr, color));
 		}
 	}
 	mlx_put_image_to_window(state->mlx_ptr, state->win.ptr,
 		state->img.ptr, 0, 0);
-	i = get_idx_from_offset(&state->objects, state->objects.offset);
-	// while (--i > 0)
-	// 	objects[i].faces_camera = false;
 }
