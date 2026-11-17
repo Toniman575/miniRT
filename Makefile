@@ -4,7 +4,7 @@ NAME		= miniRT
 # ---- compiler / linker --------------------------------------------------- #
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -MMD -MP
-ARENA_SIZE	?= 64
+ARENA_SIZE	?= 4096
 CPPFLAGS	= -I inc -I $(LIBFT_DIR) -I $(LIBFT_DIR)/arena -I $(LIBFT_DIR)/gnl -D ARENA_SIZE=$(ARENA_SIZE)
 LDFLAGS 	=
 LDLIBS		= -lmlx -lX11 -lXext -lm
