@@ -52,7 +52,9 @@ SRCS	= \
 		vector_basics.c \
 		vector_geometry.c \
 		vector_utils.c \
-		quaternion_utils.c
+		quaternion_utils.c \
+		intersect_primitives.c \
+		intersect_utils.c
 
 DEBUG_SRCS 	=
 

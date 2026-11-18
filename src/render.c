@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 10:14:09 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/18 14:14:49 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 	distance = half_width / (tan(fov_rad / 2.));
 	ray.origin = state->camera.pos;
 	ray.dir = vec3_normalize(vec3_rot(state->camera.rotation,
-			vec3_normalize(new_vec3(coord.x - half_width,
-					half_height - coord.y, -distance))));
+				vec3_normalize(new_vec3(coord.x - half_width + 0.5,
+						half_height - coord.y + 0.5, -distance))));
 	return (ray);
 }
 
@@ -78,10 +78,10 @@ void	render(t_state *state)
 	t_ray			ray;
 
 	current.y = -1;
-	while (++current.y < state->win.dim.height)
+	while (++current.y < state->img.dim.height)
 	{
 		current.x = -1;
-		while (++current.x < state->win.dim.width)
+		while (++current.x < state->img.dim.width)
 		{
 			ray = viewport_ray(state, current);
 			option = cast_ray(state, ray);
