@@ -6,11 +6,15 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/18 14:41:10 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 14:50:05 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/18 16:20:41 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include <math.h>
+
+#include "config.h"
+#include "libft.h"
+#include "ray.h"
 
 t_lin_eq	build_lin_eq(t_shape *shape, t_ray *ray)
 {

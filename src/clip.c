@@ -3,16 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   clip.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sancuta <sancuta@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/16 20:39:42 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/17 02:39:14 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/18 16:26:41 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include <math.h>
+#include <stdio.h>
 
-bool	is_point_plane(t_plane plane, t_world_coord p, t_clip_type type)
+#include "config.h"
+#include "shape.h"
+
+static bool	is_point_plane(t_plane plane, t_world_coord p, t_clip_type type)
 {
 	t_vec3	pp;
 
@@ -26,7 +30,7 @@ bool	is_point_plane(t_plane plane, t_world_coord p, t_clip_type type)
 	return (true);
 }
 
-bool	is_point_sphere(t_sphere sphere, t_world_coord p, t_clip_type type)
+static bool	is_point_sphere(t_sphere sphere, t_world_coord p, t_clip_type type)
 {
 	t_vec3	pc;
 
@@ -40,7 +44,7 @@ bool	is_point_sphere(t_sphere sphere, t_world_coord p, t_clip_type type)
 	return (true);
 }
 
-bool	is_point_tube(t_tube tube, t_world_coord p, t_clip_type type)
+static bool	is_point_tube(t_tube tube, t_world_coord p, t_clip_type type)
 {
 	t_vec3	radial;
 
