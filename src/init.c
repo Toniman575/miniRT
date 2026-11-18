@@ -6,12 +6,16 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 14:11:34 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/18 16:19:39 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include<mlx.h>
+#include<X11/X.h>
+
+#include "config.h"
+#include "state.h"
 #include "utils.h"
-#include "vector.h"
 
 void	init_mlx(t_state *state)
 {

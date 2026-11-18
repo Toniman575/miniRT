@@ -6,16 +6,19 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:40:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/04 20:30:39 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/18 16:22:20 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /// TODO: Should filename be in the state struct?
 /// TODO: Viewport field in camera struct.
 
+#include <mlx.h>
+#include <stdio.h>
+
 #include "utils.h"
 
-void	validate_scene_path(int argc, char *path)
+static void	validate_scene_path(int argc, char *path)
 {
 	size_t	len;
 

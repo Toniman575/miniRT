@@ -6,12 +6,15 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 14:14:49 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/18 16:26:26 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ray.h"
+#include "state.h"
 #include "utils.h"
-#include "vector.h"
+#include <math.h>
+#include <mlx.h>
 
 t_option	cast_ray(t_state *state, t_ray ray)
 {
@@ -40,7 +43,7 @@ t_option	cast_ray(t_state *state, t_ray ray)
 
 /// TODO: Optimize: Move rotation to be pre computed in
 ///					the camerastruct and not at each ray.
-t_ray	viewport_ray(t_state *state, t_screen_coord coord)
+static t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 {
 	t_ray		ray;
 	double		distance;
@@ -59,7 +62,8 @@ t_ray	viewport_ray(t_state *state, t_screen_coord coord)
 	return (ray);
 }
 
-void	put_pixel_to_buffer(t_state *state, t_screen_coord sc, uint32_t color)
+static void	put_pixel_to_buffer(t_state *state,
+	t_screen_coord sc, uint32_t color)
 {
 	size_t	idx;
 	size_t	pixels_per_line;
