@@ -6,40 +6,23 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/18 14:34:23 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 14:43:45 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/18 16:20:12 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include <stdio.h>
+
+#include "config.h"
+#include "libft.h"
+#include "ray.h"
+#include "vector.h"
 
 static t_world_coord	get_ray_point(t_ray *ray, double t)
 {
 	return (vec3_add(ray->origin, vec3_mult(ray->dir, t)));
 }
 
-t_option	intersect_plane(t_object *object, t_shape *shape, t_ray *ray)
-{
-	t_lin_eq		eq;
-	t_option		root;
-	t_option		ret;
-	t_world_coord	hitpoint;
-
-	ft_memset(&ret, 0, sizeof(t_option));
-	eq = build_lin_eq(shape, ray);
-	root = solve_lin_eq(eq);
-	if (root.type != OT_LIN_ROOT)
-		return (ret);
-	hitpoint = get_ray_point(ray, root.value.t);
-	if (root.value.t > EPSILON && is_clip(shape, hitpoint))
-	{
-		ret.type = OT_INTERSECTION;
-		ret.value.intersection
-			= new_intersection(object, shape, root.value.t, hitpoint);
-	}
-	return (ret);
-}
-
-t_option	intersect_tube(t_object *object, t_shape *shape, t_ray *ray)
+static t_option	intersect_tube(t_object *object, t_shape *shape, t_ray *ray)
 {
 	t_quad_eq		eq;
 	t_option		root;
@@ -65,6 +48,28 @@ t_option	intersect_tube(t_object *object, t_shape *shape, t_ray *ray)
 		}
 	}
 	return (res);
+}
+
+t_option	intersect_plane(t_object *object, t_shape *shape, t_ray *ray)
+{
+	t_lin_eq		eq;
+	t_option		root;
+	t_option		ret;
+	t_world_coord	hitpoint;
+
+	ft_memset(&ret, 0, sizeof(t_option));
+	eq = build_lin_eq(shape, ray);
+	root = solve_lin_eq(eq);
+	if (root.type != OT_LIN_ROOT)
+		return (ret);
+	hitpoint = get_ray_point(ray, root.value.t);
+	if (root.value.t > EPSILON && is_clip(shape, hitpoint))
+	{
+		ret.type = OT_INTERSECTION;
+		ret.value.intersection
+			= new_intersection(object, shape, root.value.t, hitpoint);
+	}
+	return (ret);
 }
 
 t_option	intersect_cylinder(t_object *object, t_shape *shape, t_ray *ray)

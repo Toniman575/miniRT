@@ -6,13 +6,15 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:54:43 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 14:16:26 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/18 16:22:34 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "config.h"
+#include "ray.h"
+#include "vector.h"
 
-t_vec3	get_normal(t_intersection x)
+static t_vec3	get_normal(t_intersection x)
 {
 	t_vec3	v;
 	t_vec3	axial;

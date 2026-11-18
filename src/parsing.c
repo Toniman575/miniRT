@@ -6,11 +6,16 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/01 21:38:43 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/16 15:08:12 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/18 16:25:01 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+#include "libft.h"
+#include "get_next_line.h"
+#include <string.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #ifdef DEBUG
 # include <stdio.h>

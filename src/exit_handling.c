@@ -6,11 +6,13 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 21:21:17 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/04 20:02:18 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/18 16:25:19 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
 #include "utils.h"
+#include <mlx.h>
 
 void	cleanup(t_state *state)
 {

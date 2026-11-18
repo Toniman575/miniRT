@@ -6,41 +6,29 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/31 16:54:15 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 14:29:12 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/18 16:25:56 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "color.h"
+#include "ray.h"
+#include "shape.h"
+#include "state.h"
 #include "vector.h"
 
 t_vec3	new_vec3(double x, double y, double z)
 {
-	t_vec3	new;
-
-	new.x = x;
-	new.y = y;
-	new.z = z;
-	return (new);
+	return ((t_vec3){x, y, z});
 }
 
 t_world_coord	new_world_coord(double x, double y, double z)
 {
-	t_world_coord	new;
-
-	new.x = x;
-	new.y = y;
-	new.z = z;
-	return (new);
+	return ((t_world_coord){x, y, z});
 }
 
 t_color	new_color(t_color_component r, t_color_component g, t_color_component b)
 {
-	t_color	new;
-
-	new.r = r;
-	new.g = g;
-	new.b = b;
-	return (new);
+	return ((t_color){r, g, b});
 }
 
 size_t	alloc_object(t_state *state)
