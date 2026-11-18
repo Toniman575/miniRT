@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/17 04:16:23 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/18 10:14:09 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,8 @@ void	render(t_state *state)
 	t_screen_coord	current;
 	t_xcolor		color;
 	t_option		option;
-	t_object		*objects;
 	t_ray			ray;
 
-	objects = (t_object *)(state->objects.buf);
 	current.y = -1;
 	while (++current.y < state->win.dim.height)
 	{
