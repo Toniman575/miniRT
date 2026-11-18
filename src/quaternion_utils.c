@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 17:54:11 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/14 17:56:28 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/18 14:50:48 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 t_quaternion	quat_from_aa(double rad, t_vec3 axis)
 {
 	t_quaternion	res;
-	double	sin_rad_half;
+	double			sin_rad_half;
 
 	axis = vec3_normalize(axis);
 	sin_rad_half = sin(rad / 2.0);

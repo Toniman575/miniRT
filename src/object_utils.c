@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:54:43 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/17 04:23:41 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/18 14:16:26 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ t_vec3	get_normal(t_intersection x)
 		return (x.shape->data.plane.dir);
 	else if (x.shape->type == SHAPE_SPHERE)
 		return (vec3_normalize(vec3_sub(x.hitpoint,
-			x.shape->data.sphere.center)));
+					x.shape->data.sphere.center)));
 	else if (x.shape->type == SHAPE_TUBE)
 	{
 		v = vec3_sub(x.hitpoint,
-			x.object->shape[0].data.tube.center);
+				x.object->shape[0].data.tube.center);
 		axial = vec3_mult(x.object->shape[0].data.tube.dir,
-			vec3_dot(v, x.object->shape[0].data.tube.dir));
+				vec3_dot(v, x.object->shape[0].data.tube.dir));
 		radial = vec3_sub(v, axial);
 		return (vec3_normalize(radial));
 	}

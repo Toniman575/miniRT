@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/17 04:40:12 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/18 14:52:25 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,6 +299,8 @@ typedef struct s_quad_eq
 }	t_quad_eq;
 
 t_world_coord	new_world_coord(double x, double y, double z);
+t_intersection	new_intersection(t_object *object, t_shape *shape, double t,
+		t_world_coord hitpoint);
 t_option		intersect_object(t_object *object, t_ray *ray);
 t_result		reflect(t_vec3 vec);
 void			init(t_state *state, char *file);
@@ -318,5 +320,14 @@ t_vec3			get_normal_facing_ray(t_intersection x, t_ray ray);
 void			cleanup(t_state *state);
 void			parse_scene(t_state *state, char *path);
 bool			is_clip(t_shape *shape, t_world_coord hitpoint);
+t_lin_eq		build_lin_eq(t_shape *shape, t_ray *ray);
+t_option		solve_lin_eq(t_lin_eq eq);
+t_quad_eq		build_sphere_eq(t_shape *shape, t_ray *ray);
+t_option		solve_quad_eq(t_quad_eq eq);
+t_quad_eq		build_tube_eq(t_shape *shape, t_ray *ray);
+t_option		intersect_plane(t_object *object, t_shape *shape, t_ray *ray);
+t_option		intersect_cylinder(t_object *object, t_shape *shape,
+					t_ray *ray);
+t_option		intersect_sphere(t_object *object, t_shape *shape, t_ray *ray);
 
 #endif

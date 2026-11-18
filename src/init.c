@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/17 16:30:14 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/18 14:11:34 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	init_dummy(t_state *state)
 	};
 	state->light = (t_light){
 		.pos = new_vec3(0., 0., 4.),
-		.brightness = .8,
+		.brightness = 1.,
 	};
 	state->ambient.brightness = .25;
 	idx = get_idx_from_offset(&state->objects,
