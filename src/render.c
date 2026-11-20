@@ -6,15 +6,16 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 16:26:26 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/20 15:11:42 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <math.h>
+#include <mlx.h>
 
 #include "ray.h"
 #include "state.h"
 #include "utils.h"
-#include <math.h>
-#include <mlx.h>
 
 t_option	cast_ray(t_state *state, t_ray ray)
 {

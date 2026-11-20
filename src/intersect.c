@@ -6,11 +6,11 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:42:59 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/18 14:41:31 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/20 15:09:51 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "ray.h"
 
 t_option	intersect_object(t_object *object, t_ray *ray)
 {

@@ -6,12 +6,13 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 17:54:11 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 14:50:48 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/20 15:11:33 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
 #include <math.h>
+
+#include "vector.h"
 
 t_quaternion	quat_from_aa(double rad, t_vec3 axis)
 {

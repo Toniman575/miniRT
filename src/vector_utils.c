@@ -6,12 +6,13 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 11:10:28 by sancuta           #+#    #+#             */
-/*   Updated: 2026/10/31 16:55:28 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/20 15:11:55 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
 #include <math.h>
+
+#include "vector.h"
 
 double	vec3_len_pow2(t_vec3 p)
 {
