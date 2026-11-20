@@ -6,11 +6,11 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 11:54:45 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/09 15:27:39 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/20 15:10:19 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "color.h"
 
 t_xcolor	x_color_from_color(t_color color)
 {
