@@ -6,13 +6,14 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:57:20 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 16:18:02 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/23 13:14:40 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 
 #include "utils.h"
+#include "config.h"
 
 static double	light_intensity(t_state *state, t_option *option, t_ray ray)
 {
@@ -27,7 +28,7 @@ static double	light_intensity(t_state *state, t_option *option, t_ray ray)
 	ray_to_light.dir = vec3_normalize(vec3_sub(state->light.pos, x.hitpoint));
 	ray_x = cast_ray(state, ray_to_light);
 	len = vec3_len(vec3_sub(state->light.pos, x.hitpoint));
-	if (ray_x.type == OT_INTERSECTION && (len > ray_x.value.intersection.t))
+	if (ray_x.type == OT_INTERSECTION && (len - ray_x.value.intersection.t > EPSILON))
 		return (state->ambient.brightness);
 	intensity = vec3_dot(get_normal_facing_ray(x, ray), ray_to_light.dir);
 	intensity *= state->light.brightness;

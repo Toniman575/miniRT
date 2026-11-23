@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/01 21:38:43 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/18 16:25:01 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/23 12:58:26 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	parse_scene(t_state *state, char *path)
 	char		*line;
 	size_t		i;
 	ssize_t		len;
-	size_t		offset;
-	t_object	*obj;
+//	size_t		offset;
+//	t_object	*obj;
 	uint8_t		mask;		// 0b00000 0 0 0
 							//         L C A
 	fd = ft_open(state, path, O_RDONLY);
@@ -60,51 +60,36 @@ void	parse_scene(t_state *state, char *path)
 		if (line[i] == 'A' && ~(mask & 0x1))
 		{
 			mask |= 0x1;
-			offset = arena_alloc(&state->objects, sizeof(t_object),
-				_Alignof(t_object));
-			obj = (t_object *)&state->objects.buf[get_idx_from_offset(
-				&state->objects, offset)];
-			//obj->type = OBJ_AMBIENT;
-			while (ft_isspace(line[i])) 
+			while (ft_isspace(line[i]))
 				++i;
-			//obj->data.ambient.brightness = ft_atod(&line[i]);
-			//if (!obj->data.ambient.brightness && errno == EINVAL)
-				/*handle_exit()*/;
+			state->ambient.brightness = ft_atod(&line[i]);
 			len = ft_indchr(&line[i], ' ');
 			if (len == -1)
 				/*handle_exit()*/;
 			i += len;
 			while (ft_isspace(line[i]))
 				++i;
-			len = ft_indchr(&line[i], ' ');
+			state->ambient.color.r = ft_atoi(&line[i]);
+			if (!state->ambient.color.r && errno == EINVAL)
+				/*handle_exit()*/;
+			len = ft_indchr(&line[i], ',');
 			if (len == -1)
 				/*handle_exit()*/;
 			i += len;
-			obj->color.r = ft_atoi(&line[i]);
-			if (!obj->color.r && errno == EINVAL)
+			state->ambient.color.g = ft_atoi(&line[i]);
+			if (!state->ambient.color.g && errno == EINVAL)
 				/*handle_exit()*/;
-#ifdef DEBUG
-			printf("r = %d\n", obj->color.r);
-#endif
-			len = ft_indchr(&line[i], ' ');
+			len = ft_indchr(&line[i], ',');
 			if (len == -1)
 				/*handle_exit()*/;
 			i += len;
-			obj->color.g = ft_atoi(&line[i]);
-			if (!obj->color.g && errno == EINVAL)
+			state->ambient.color.b = ft_atoi(&line[i]);
+			if (!state->ambient.color.g && errno == EINVAL)
 				/*handle_exit()*/;
 #ifdef DEBUG
-			printf("g = %d\n", obj->color.g);
-#endif
-			len = ft_indchr(&line[i], ' ');
-			if (len == -1)
-				/*handle_exit()*/;
-			i += len;
-			obj->color.b = ft_atoi(&line[i]);
-			if (!obj->color.b && errno == EINVAL)
-				/*handle_exit()*/;
-#ifdef DEBUG
-			printf("b = %d\n", obj->color.b);
+			printf("r = %d\n", state->ambient.color.r);
+			printf("g = %d\n", state->ambient.color.g);
+			printf("b = %d\n", state->ambient.color.b);
 #endif
 		}
 /*

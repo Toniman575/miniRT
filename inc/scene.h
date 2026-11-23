@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/18 16:01:37 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 16:28:09 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/23 12:57:30 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 
 # include <stdint.h>
 
+# include "color.h"
 # include "vector.h"
 
-typedef uint8_t		t_fov;
+typedef uint8_t	t_fov;
 
 typedef struct s_ambient
 {
-	double	brightness;
+	double		brightness;
+	t_color		color;
 }	t_ambient;
 
 typedef struct s_camera
@@ -37,6 +39,7 @@ typedef struct s_light
 {
 	t_world_coord	pos;
 	double			brightness;
+	t_color			color;
 }	t_light;
 
 #endif
