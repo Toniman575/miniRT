@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/20 15:10:09 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/23 13:06:17 by sancuta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	init_dummy(t_state *state)
 		.fov = 100.0
 	};
 	state->light = (t_light){
-		.pos = new_vec3(0., 0., 4.),
+		.pos = new_vec3(3., 0., 4.),
 		.brightness = 1.,
 	};
 	state->ambient.brightness = .25;
@@ -73,11 +73,11 @@ void	init_dummy(t_state *state)
 	objects[idx + 1].shape[0].type = SHAPE_SPHERE;
 	objects[idx + 1].shape[0].data.sphere.center = new_world_coord(3., 0., 5.);
 	objects[idx + 1].shape[0].data.sphere.radius = 1.;
-	objects[idx + 1].shape[0].clip[0].type = CT_NEG;
+	objects[idx + 1].shape[0].clip[0].type = CT_POS;
 	objects[idx + 1].shape[0].clip[0].shape = &objects[idx + 6].shape[0];
 	objects[idx + 1].shape[0].clip[0].shape->type = SHAPE_PLANE;
 	objects[idx + 1].shape[0].clip[0].shape->data.plane.pos = new_world_coord(3., 0., 5.5);;
-	objects[idx + 1].shape[0].clip[0].shape->data.plane.dir = vec3_normalize(new_world_coord(0., 0., -1.));
+	objects[idx + 1].shape[0].clip[0].shape->data.plane.dir = vec3_normalize(new_world_coord(1., 0., 0.));
 	objects[idx + 1].color = new_color(0, 255, 0);
 	objects[idx + 2].type = OBJ_SPHERE;
 	objects[idx + 2].shape[0].type = SHAPE_SPHERE;
@@ -119,9 +119,9 @@ void	init_dummy(t_state *state)
 		-height / 2.));
 	objects[idx + 5].shape[0].clip[1].shape->data.plane.dir
 		= objects[idx + 5].shape[0].data.tube.dir;
-	objects[idx + 5].shape[1].clip[0].type = CT_NEG;
+	objects[idx + 5].shape[1].clip[0].type = CT_POS;
 	objects[idx + 5].shape[1].clip[0].shape = &objects[idx + 5].shape[0];
-	objects[idx + 5].shape[2].clip[0].type = CT_NEG;
+	objects[idx + 5].shape[2].clip[0].type = CT_POS;
 	objects[idx + 5].shape[2].clip[0].shape = &objects[idx + 5].shape[0];
 	objects[idx + 5].color = new_color(165, 165, 255);
 }
