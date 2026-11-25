@@ -36,25 +36,23 @@ LIBFT_DEBUG		= $(LIBFT_DIR)/build/debug/libft.a
 
 # ---- sources ------------------------------------------------------------- #
 SRCS	= \
-		color.c \
-		constructors.c \
-		exit_handling.c \
-		from.c \
-		hooks.c \
-		init.c \
-		intersect.c \
-		clip.c \
+		render/color.c \
+		utils/constructors.c \
+		utils/exit_handling.c \
+		utils/hooks.c \
+		utils/init.c \
+		shapes/intersect.c \
+		shapes/clip.c \
 		main.c \
-		main_loop.c \
-		object_utils.c \
+		shapes/normal.c \
 		parsing.c \
-		render.c \
-		vector_basics.c \
-		vector_geometry.c \
-		vector_utils.c \
-		quaternion_utils.c \
-		intersect_primitives.c \
-		intersect_utils.c
+		render/render.c \
+		math/vector_basics.c \
+		math/vector_geometry.c \
+		math/vector_utils.c \
+		math/quaternion_utils.c \
+		shapes/intersect_primitives.c \
+		shapes/intersect_utils.c
 
 DEBUG_SRCS 	=
 

@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/18 15:25:31 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 15:28:42 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/25 17:25:56 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ typedef struct s_img_data
 	t_dim2d	dim;
 	void	*ptr;
 	char	*buf;
-	int		bits_per_pixel;
-	int		bytes_per_line;
+	int		pixels_per_line;
 	int		byte_order;
 }	t_img_data;
 

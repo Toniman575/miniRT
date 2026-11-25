@@ -6,12 +6,11 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:40:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/25 16:41:12 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/25 18:08:49 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /// TODO:	Should filename be in the state struct?
-///			optimize put_pixel_to_buffer: calculate directly from mlx_get_attributes.
 
 #include <mlx.h>
 #include <stdio.h>

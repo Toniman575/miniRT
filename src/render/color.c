@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:57:20 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/25 16:16:41 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/25 18:06:03 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static double	light_intensity(t_state *state, t_option *option, t_ray ray)
 	len = vec3_len(ray_to_light.dir);
 	ray_to_light.dir = vec3_normalize(ray_to_light.dir);
 	intensity = vec3_dot(get_normal_facing_ray(x, ray), ray_to_light.dir);
-	if (intensity <= 0)
+	if (intensity < EPSILON)
 		return (state->ambient.brightness);
 	if (is_occluded(state, ray_to_light, len))
 		return (state->ambient.brightness);
@@ -56,6 +56,13 @@ static double	light_intensity(t_state *state, t_option *option, t_ray ray)
 	intensity = fmax(0., intensity) + state->ambient.brightness;
 	intensity = fmin(1., intensity);
 	return (intensity);
+}
+
+t_xcolor	x_color_from_color(t_color color)
+{
+	return (((t_xcolor)color.r << 16)
+		| ((t_xcolor)color.g << 8)
+		| (t_xcolor)color.b);
 }
 
 t_xcolor	get_color_from_ray(t_state *state, t_option option, t_ray ray)

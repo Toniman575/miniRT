@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/25 16:43:00 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/25 17:29:09 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,8 @@ static void	put_pixel_to_buffer(t_state *state,
 	t_screen_coord sc, uint32_t color)
 {
 	size_t	idx;
-	size_t	pixels_per_line;
 
-	pixels_per_line = state->img.bytes_per_line * 8
-		/ state->img.bits_per_pixel;
-	idx = sc.y * pixels_per_line + sc.x;
+	idx = sc.y * state->img.pixels_per_line + sc.x;
 	((unsigned int *)state->img.buf)[idx] = color;
 }
 
