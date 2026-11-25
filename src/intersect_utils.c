@@ -6,14 +6,13 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/18 14:41:10 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 16:20:41 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/25 16:37:47 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 
 #include "config.h"
-#include "libft.h"
 #include "ray.h"
 
 t_lin_eq	build_lin_eq(t_shape *shape, t_ray *ray)
@@ -30,7 +29,7 @@ t_option	solve_lin_eq(t_lin_eq eq)
 {
 	t_option	ret;
 
-	ft_memset(&ret, 0, sizeof(t_option));
+	ret.type = OT_NONE;
 	if (eq.a < -EPSILON || eq.a > EPSILON)
 	{
 		ret.type = OT_LIN_ROOT;
@@ -57,7 +56,7 @@ t_option	solve_quad_eq(t_quad_eq eq)
 	t_option	root;
 	double		delta_reduced;
 
-	ft_memset(&root, 0, sizeof(t_option));
+	root.type = OT_NONE;
 	if (-EPSILON < eq.a && eq.a < EPSILON)
 		return (root);
 	delta_reduced = eq.b_half * eq.b_half - eq.a * eq.c;

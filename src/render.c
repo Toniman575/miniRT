@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/25 15:07:17 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/25 16:43:00 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ void	update_view(t_state *state)
 	double		step;
 	t_vec3		right;
 	t_vec3		up;
-	t_vec3		fwd;
+	t_vec3		forward;
 
 	c = &state->camera;
 	step = 2. * tan(c->fov * M_PI / 360.) / state->img.dim.width;
 	right = vec3_rot(c->rotation, new_vec3(1., 0., 0.));
 	up = vec3_rot(c->rotation, new_vec3(0., 1., 0.));
-	fwd = vec3_rot(c->rotation, new_vec3(0., 0., -1.));
+	forward = vec3_rot(c->rotation, new_vec3(0., 0., -1.));
 	c->viewport.sx = vec3_mult(right, step);
 	c->viewport.sy = vec3_mult(up, -step);
-	c->viewport.top_left = vec3_add(fwd,
+	c->viewport.top_left = vec3_add(forward,
 			vec3_add(vec3_mult(c->viewport.sx, 0.5 - state->img.dim.width / 2.),
 				vec3_mult(c->viewport.sy, 0.5 - state->img.dim.height / 2.)));
 }
@@ -93,6 +93,7 @@ void	render(t_state *state)
 	t_ray			ray;
 	t_vec3			row;
 
+	update_view(state);
 	current.y = -1;
 	while (++current.y < state->img.dim.height)
 	{
