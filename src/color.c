@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:57:20 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/25 16:15:06 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/25 16:16:41 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ t_xcolor	get_color_from_ray(t_state *state, t_option option, t_ray ray)
 	t_color	color;
 	double	intensity;
 
-	ft_memset(&color, 0, sizeof(t_color));
 	if (option.type == OT_NONE)
 		return (0);
 	color = option.value.intersection.object->color;

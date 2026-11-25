@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/25 15:20:37 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/25 16:48:03 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	init_dummy(t_state *state)
 	};
 	state->redraw = true;
 	state->light = (t_light){
-		.pos = new_vec3(3., 0., 4.),
+		.pos = new_vec3(2, 0., 4.),
 		.brightness = 1.,
 	};
 	state->ambient.brightness = .25;
@@ -121,9 +121,9 @@ void	init_dummy(t_state *state)
 		-height / 2.));
 	objects[idx + 5].shape[0].clip[1].shape->data.plane.dir
 		= objects[idx + 5].shape[0].data.tube.dir;
-	objects[idx + 5].shape[1].clip[0].type = CT_POS;
+	objects[idx + 5].shape[1].clip[0].type = CT_NEG;
 	objects[idx + 5].shape[1].clip[0].shape = &objects[idx + 5].shape[0];
-	objects[idx + 5].shape[2].clip[0].type = CT_POS;
+	objects[idx + 5].shape[2].clip[0].type = CT_NEG;
 	objects[idx + 5].shape[2].clip[0].shape = &objects[idx + 5].shape[0];
 	objects[idx + 5].color = new_color(165, 165, 255);
 }
@@ -142,7 +142,6 @@ void	init(t_state *state, char *file)
 	parse_scene(state, file);
 	init_dummy(state);
 	init_dim(state);
-	update_view(state);
 	init_mlx(state);
 	mlx_hook(state->win.ptr, KeyPress, KeyPressMask, handle_key_press, state);
 	mlx_hook(state->win.ptr, KeyRelease, KeyReleaseMask,
