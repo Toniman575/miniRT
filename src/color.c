@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:57:20 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/23 13:14:40 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/25 16:15:06 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,43 @@
 #include "utils.h"
 #include "config.h"
 
+static bool	is_occluded(t_state *state, t_ray ray, double max_t)
+{
+	t_object	*objects;
+	t_option	hit;
+	uint16_t	i;
+	uint16_t	max_objects;
+
+	objects = (t_object *)state->objects.buf;
+	max_objects = get_idx_from_offset(&state->objects, state->objects.offset);
+	i = 0;
+	while (++i < max_objects)
+	{
+		hit = intersect_object(&objects[i], &ray);
+		if (hit.type == OT_INTERSECTION
+			&& hit.value.intersection.t < max_t - EPSILON)
+			return (true);
+	}
+	return (false);
+}
+
 static double	light_intensity(t_state *state, t_option *option, t_ray ray)
 {
 	t_intersection	x;
 	t_ray			ray_to_light;
-	t_option		ray_x;
 	double			len;
 	double			intensity;
 
 	x = option->value.intersection;
 	ray_to_light.origin = x.hitpoint;
-	ray_to_light.dir = vec3_normalize(vec3_sub(state->light.pos, x.hitpoint));
-	ray_x = cast_ray(state, ray_to_light);
-	len = vec3_len(vec3_sub(state->light.pos, x.hitpoint));
-	if (ray_x.type == OT_INTERSECTION && (len - ray_x.value.intersection.t > EPSILON))
-		return (state->ambient.brightness);
+	ray_to_light.dir = vec3_sub(state->light.pos, x.hitpoint);
+	len = vec3_len(ray_to_light.dir);
+	ray_to_light.dir = vec3_normalize(ray_to_light.dir);
 	intensity = vec3_dot(get_normal_facing_ray(x, ray), ray_to_light.dir);
+	if (intensity <= 0)
+		return (state->ambient.brightness);
+	if (is_occluded(state, ray_to_light, len))
+		return (state->ambient.brightness);
 	intensity *= state->light.brightness;
 	intensity = fmax(0., intensity) + state->ambient.brightness;
 	intensity = fmin(1., intensity);

@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:22:14 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/20 15:11:42 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/25 15:07:17 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,30 @@
 #include <mlx.h>
 
 #include "ray.h"
+#include "scene.h"
 #include "state.h"
 #include "utils.h"
+#include "vector.h"
+
+void	update_view(t_state *state)
+{
+	t_camera	*c;
+	double		step;
+	t_vec3		right;
+	t_vec3		up;
+	t_vec3		fwd;
+
+	c = &state->camera;
+	step = 2. * tan(c->fov * M_PI / 360.) / state->img.dim.width;
+	right = vec3_rot(c->rotation, new_vec3(1., 0., 0.));
+	up = vec3_rot(c->rotation, new_vec3(0., 1., 0.));
+	fwd = vec3_rot(c->rotation, new_vec3(0., 0., -1.));
+	c->viewport.sx = vec3_mult(right, step);
+	c->viewport.sy = vec3_mult(up, -step);
+	c->viewport.top_left = vec3_add(fwd,
+			vec3_add(vec3_mult(c->viewport.sx, 0.5 - state->img.dim.width / 2.),
+				vec3_mult(c->viewport.sy, 0.5 - state->img.dim.height / 2.)));
+}
 
 t_option	cast_ray(t_state *state, t_ray ray)
 {
@@ -42,24 +64,12 @@ t_option	cast_ray(t_state *state, t_ray ray)
 	return (is);
 }
 
-/// TODO: Optimize: Move rotation to be pre computed in
-///					the camerastruct and not at each ray.
-static t_ray	viewport_ray(t_state *state, t_screen_coord coord)
+static t_ray	viewport_ray(t_camera *camera, t_coord2d x, t_vec3 row)
 {
 	t_ray		ray;
-	double		distance;
-	double		half_width;
-	double		half_height;
-	double		fov_rad;
 
-	fov_rad = state->camera.fov * M_PI / 180.;
-	half_width = state->win.dim.width / 2.;
-	half_height = state->win.dim.height / 2.;
-	distance = half_width / (tan(fov_rad / 2.));
-	ray.origin = state->camera.pos;
-	ray.dir = vec3_normalize(vec3_rot(state->camera.rotation,
-				vec3_normalize(new_vec3(coord.x - half_width + 0.5,
-						half_height - coord.y + 0.5, -distance))));
+	ray.origin = camera->pos;
+	ray.dir = vec3_normalize(vec3_add(row, vec3_mult(camera->viewport.sx, x)));
 	return (ray);
 }
 
@@ -81,14 +91,16 @@ void	render(t_state *state)
 	t_xcolor		color;
 	t_option		option;
 	t_ray			ray;
+	t_vec3			row;
 
 	current.y = -1;
 	while (++current.y < state->img.dim.height)
 	{
+		row = vec3_add(state->camera.viewport.top_left, vec3_mult(state->camera.viewport.sy, current.y));
 		current.x = -1;
 		while (++current.x < state->img.dim.width)
 		{
-			ray = viewport_ray(state, current);
+			ray = viewport_ray(&state->camera, current.x, row);
 			option = cast_ray(state, ray);
 			color = get_color_from_ray(state, option, ray);
 			put_pixel_to_buffer(state, current,

@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:11:27 by asadik            #+#    #+#             */
-/*   Updated: 2026/10/28 12:13:02 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/25 15:22:16 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	main_loop(void *data)
 	t_state	*state;
 
 	state = (t_state *)data;
+	if (!state->redraw)
+		return (1);
 	/*
 	update_timestamp(state);
 	handle_camera(state);
@@ -27,5 +29,6 @@ int	main_loop(void *data)
 	}
 	*/
 	render(state);
+	state->redraw = false;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/16 20:39:42 by sancuta           #+#    #+#             */
-/*   Updated: 2026/11/18 16:26:41 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/25 12:39:46 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,21 @@ static bool	is_point_tube(t_tube tube, t_world_coord p, t_clip_type type)
 
 bool	is_clip(t_shape *shape, t_world_coord hitpoint)
 {
-	t_shape	cs;
+	t_shape	*cs;
 	size_t	i;
 
 	i = -1;
 	while (shape->clip[++i].type)
 	{
-		cs = *shape->clip[i].shape;
-		if (cs.type == SHAPE_PLANE
-			&& !is_point_plane(cs.data.plane, hitpoint, shape->clip[i].type))
+		cs = shape->clip[i].shape;
+		if (cs->type == SHAPE_PLANE
+			&& !is_point_plane(cs->data.plane, hitpoint, shape->clip[i].type))
 			return (false);
-		else if (cs.type == SHAPE_SPHERE
-			&& !is_point_sphere(cs.data.sphere, hitpoint, shape->clip[i].type))
+		else if (cs->type == SHAPE_SPHERE
+			&& !is_point_sphere(cs->data.sphere, hitpoint, shape->clip[i].type))
 			return (false);
-		else if (cs.type == SHAPE_TUBE
-			&& !is_point_tube(cs.data.tube, hitpoint, shape->clip[i].type))
+		else if (cs->type == SHAPE_TUBE
+			&& !is_point_tube(cs->data.tube, hitpoint, shape->clip[i].type))
 			return (false);
 	}
 	return (true);
