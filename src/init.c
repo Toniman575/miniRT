@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/16 15:57:51 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/14 18:00:49 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	init_dummy(t_state *state)
 	};
 	state->ambient.brightness = .1;
 	idx = get_idx_from_offset(&state->objects,
-		arena_alloc(&state->objects, 8 * sizeof(t_object), _Alignof(t_object)));
+		arena_alloc(&state->objects, 6 * sizeof(t_object), _Alignof(t_object)));
 	objects = (t_object *)state->objects.buf;
 	objects[idx].type = OBJ_SPHERE;
 	objects[idx].data.sphere.center = new_world_coord(-3., 0., -5.);
@@ -72,44 +72,30 @@ void	init_dummy(t_state *state)
 	objects[idx + 1].data.sphere.cam_pos = 1;
 	objects[idx + 1].color = new_color(0, 255, 0);
 	objects[idx + 1].faces_camera = false;
-	objects[idx + 2].type = OBJ_SPHERE;
-	objects[idx + 2].data.sphere.center = new_world_coord(0., 0., 10.);
-	objects[idx + 2].data.sphere.radius = 100.;
-	objects[idx + 2].data.sphere.cam_pos = 1;
-	objects[idx + 2].color = new_color(255, 165, 0);
-	objects[idx + 2].faces_camera = false;
-	objects[idx + 3].type = OBJ_PLANE;
-	objects[idx + 3].data.plane.dir = vec3_normalize(new_vec3(0., -1., 0.));
-	objects[idx + 3].data.plane.pos = new_world_coord(0., -3, 0.);
-	objects[idx + 3].color = new_color(0, 0, 255);
-	objects[idx + 3].faces_camera = false;
-	objects[idx + 4].type = OBJ_PLANE;
-	objects[idx + 4].data.plane.dir = vec3_normalize(new_vec3(0., 1., 0.));
-	objects[idx + 4].data.plane.pos = new_world_coord(0., 3., 0.);
-	objects[idx + 4].color = new_color(0, 0, 255);
-	objects[idx + 4].faces_camera = false;
+	// objects[idx + 2].type = OBJ_SPHERE;
+	// objects[idx + 2].data.sphere.center = new_world_coord(0., 0., 10.);
+	// objects[idx + 2].data.sphere.radius = 100.;
+	// objects[idx + 2].data.sphere.cam_pos = 1;
+	// objects[idx + 2].color = new_color(255, 165, 0);
+	// objects[idx + 2].faces_camera = false;
+	// objects[idx + 3].type = OBJ_PLANE;
+	// objects[idx + 3].data.plane.dir = vec3_normalize(new_vec3(0., -1., 0.));
+	// objects[idx + 3].data.plane.pos = new_world_coord(0., -3, 0.);
+	// objects[idx + 3].color = new_color(0, 0, 255);
+	// objects[idx + 3].faces_camera = false;
+	// objects[idx + 4].type = OBJ_PLANE;
+	// objects[idx + 4].data.plane.dir = vec3_normalize(new_vec3(0., 1., 0.));
+	// objects[idx + 4].data.plane.pos = new_world_coord(0., 3., 0.);
+	// objects[idx + 4].color = new_color(0, 0, 255);
+	// objects[idx + 4].faces_camera = false;
 	objects[idx + 5].type = OBJ_CYLINDER;
 	objects[idx + 5].data.cylinder.cam_pos = 1.;
-	objects[idx + 5].data.cylinder.dir = vec3_normalize(new_vec3(-1., 1., 1.));
+	objects[idx + 5].data.cylinder.dir = vec3_normalize(new_vec3(0., 0., 1.));
 	objects[idx + 5].data.cylinder.center = new_world_coord(0., 0, 0.);
 	objects[idx + 5].data.cylinder.radius = 2.;
 	objects[idx + 5].data.cylinder.height = 10.;
 	objects[idx + 5].color = new_color(165, 165, 255);
 	objects[idx + 5].faces_camera = false;
-	objects[idx + 6].type = OBJ_CYCAP;
-	objects[idx + 6].data.cycap.dir = objects[idx + 5].data.cylinder.dir;
-	objects[idx + 6].data.cycap.center = vec3_add(vec3_mult(objects[idx + 5].data.cylinder.dir,
-		objects[idx + 5].data.cylinder.height / 2.), objects[idx + 5].data.cylinder.center);
-	objects[idx + 6].data.cycap.radius = objects[idx + 5].data.cylinder.radius;
-	objects[idx + 6].color = objects[idx + 5].color;
-	objects[idx + 6].faces_camera = false;
-	objects[idx + 7].type = OBJ_CYCAP;
-	objects[idx + 7].data.cycap.dir = vec3_mult(objects[idx + 5].data.cylinder.dir, -1.);
-	objects[idx + 7].data.cycap.center = vec3_sub(objects[idx + 5].data.cylinder.center, vec3_mult(objects[idx + 5].data.cylinder.dir,
-		objects[idx + 5].data.cylinder.height / 2.));
-	objects[idx + 7].data.cycap.radius = objects[idx + 5].data.cylinder.radius;
-	objects[idx + 7].color = objects[idx + 5].color;
-	objects[idx + 7].faces_camera = false;
 }
 
 void	init_arena(t_state *state)

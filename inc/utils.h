@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:42:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/16 15:18:37 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/14 14:49:42 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,13 +135,6 @@ typedef struct s_cylinder
 	double			cam_pos;
 }	t_cylinder;
 
-typedef struct s_cycap
-{
-	t_world_coord	center;
-	t_vec3			dir;
-	double			radius;
-}	t_cycap;
-
 typedef union u_object_data
 {
 	t_ambient	ambient;
@@ -149,7 +142,6 @@ typedef union u_object_data
 	t_sphere	sphere;
 	t_plane		plane;
 	t_cylinder	cylinder;
-	t_cycap		cycap;
 }	t_object_data;
 
 typedef enum e_object_type
@@ -160,7 +152,6 @@ typedef enum e_object_type
 	OBJ_SPHERE,
 	OBJ_PLANE,
 	OBJ_CYLINDER,
-	OBJ_CYCAP,
 	OBJ_COUNT
 }	t_object_type;
 
