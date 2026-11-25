@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/18 16:11:08 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 16:11:32 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/25 15:20:14 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_state
 	t_light		light;
 	t_ambient	ambient;
 	t_camera	camera;
+	bool		redraw;
 }	t_state;
 
 #endif

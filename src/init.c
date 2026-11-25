@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 14:09:53 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/23 13:06:17 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/25 15:20:37 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "config.h"
 #include "state.h"
 #include "utils.h"
+#include "vector.h"
 
 void	init_mlx(t_state *state)
 {
@@ -56,6 +57,7 @@ void	init_dummy(t_state *state)
 		.rot_speed = 0.05,
 		.fov = 100.0
 	};
+	state->redraw = true;
 	state->light = (t_light){
 		.pos = new_vec3(3., 0., 4.),
 		.brightness = 1.,
@@ -140,6 +142,7 @@ void	init(t_state *state, char *file)
 	parse_scene(state, file);
 	init_dummy(state);
 	init_dim(state);
+	update_view(state);
 	init_mlx(state);
 	mlx_hook(state->win.ptr, KeyPress, KeyPressMask, handle_key_press, state);
 	mlx_hook(state->win.ptr, KeyRelease, KeyReleaseMask,

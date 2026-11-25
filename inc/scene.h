@@ -6,7 +6,7 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/18 16:01:37 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/23 12:57:30 by sancuta          ###   ########.fr       */
+/*   Updated: 2026/11/25 14:21:54 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ typedef struct s_ambient
 	t_color		color;
 }	t_ambient;
 
+// center of the top left pixel
+// direction change per pixel to the right
+// direction change per pixel down
+typedef struct s_viewport
+{
+	t_vec3	top_left;
+	t_vec3	sx;
+	t_vec3	sy;
+}	t_viewport;
+
 typedef struct s_camera
 {
 	t_world_coord	pos;
@@ -33,6 +43,7 @@ typedef struct s_camera
 	double			pan_speed;
 	double			rot_speed;
 	t_fov			fov;
+	t_viewport		viewport;
 }	t_camera;
 
 typedef struct s_light

@@ -6,12 +6,11 @@
 /*   By: asadik <asadik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 13:40:25 by asadik            #+#    #+#             */
-/*   Updated: 2026/11/18 16:22:20 by asadik           ###   ########.fr       */
+/*   Updated: 2026/11/25 16:12:32 by asadik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /// TODO: Should filename be in the state struct?
-/// TODO: Viewport field in camera struct.
 
 #include <mlx.h>
 #include <stdio.h>
